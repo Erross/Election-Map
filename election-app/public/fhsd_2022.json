@@ -1,0 +1,570 @@
+{
+  "year": 2022,
+  "election_date": "2022-04-05",
+  "race": "FRANCIS HOWELL R-III SCHOOL BOARD",
+  "seats": 2,
+  "candidates": [
+    "CHRISTINE HYMAN",
+    "ADAM BERTRAND",
+    "RANDY COOK JR.",
+    "JUSTIN MCCOY",
+    "RICK RICE",
+    "MIKE HOEHN"
+  ],
+  "slates": {
+    "fh_families": [
+      "ADAM BERTRAND",
+      "RANDY COOK JR."
+    ],
+    "fh_forward": [
+      "CHRISTINE HYMAN",
+      "JUSTIN MCCOY",
+      "RICK RICE",
+      "MIKE HOEHN"
+    ],
+    "note": "No formal FH Forward slate in 2022. Non-FH Families grouped as opposition."
+  },
+  "note": "2022 used different precinct names (e.g. '214 HAWK RIDGE'). Keys are old precinct numbers; 2023+ use new DIST_NUM. Per-precinct swing 2022\u21922023 not available due to redistricting.",
+  "totals": {
+    "registered_voters": 94166,
+    "total_votes": 26875,
+    "CHRISTINE HYMAN": 5410,
+    "ADAM BERTRAND": 7018,
+    "RANDY COOK JR.": 6951,
+    "JUSTIN MCCOY": 4610,
+    "RICK RICE": 895,
+    "MIKE HOEHN": 1991
+  },
+  "precincts": {
+    "15": {
+      "precinct_label": "15 WASHINGTON",
+      "reg_voters": 2802,
+      "total_votes": 435,
+      "CHRISTINE HYMAN": 101,
+      "ADAM BERTRAND": 103,
+      "RANDY COOK JR.": 89,
+      "JUSTIN MCCOY": 79,
+      "RICK RICE": 14,
+      "MIKE HOEHN": 49
+    },
+    "16": {
+      "precinct_label": "16 MONTCLAIR",
+      "reg_voters": 3133,
+      "total_votes": 638,
+      "CHRISTINE HYMAN": 178,
+      "ADAM BERTRAND": 121,
+      "RANDY COOK JR.": 118,
+      "JUSTIN MCCOY": 155,
+      "RICK RICE": 18,
+      "MIKE HOEHN": 48
+    },
+    "24": {
+      "precinct_label": "24 WILSHIRE",
+      "reg_voters": 2809,
+      "total_votes": 567,
+      "CHRISTINE HYMAN": 129,
+      "ADAM BERTRAND": 156,
+      "RANDY COOK JR.": 106,
+      "JUSTIN MCCOY": 92,
+      "RICK RICE": 25,
+      "MIKE HOEHN": 59
+    },
+    "25": {
+      "precinct_label": "25 SHIREWOOD",
+      "reg_voters": 2929,
+      "total_votes": 1098,
+      "CHRISTINE HYMAN": 259,
+      "ADAM BERTRAND": 272,
+      "RANDY COOK JR.": 268,
+      "JUSTIN MCCOY": 204,
+      "RICK RICE": 30,
+      "MIKE HOEHN": 65
+    },
+    "28": {
+      "precinct_label": "28 TREETOP",
+      "reg_voters": 3399,
+      "total_votes": 101,
+      "CHRISTINE HYMAN": 25,
+      "ADAM BERTRAND": 22,
+      "RANDY COOK JR.": 18,
+      "JUSTIN MCCOY": 18,
+      "RICK RICE": 4,
+      "MIKE HOEHN": 14
+    },
+    "47": {
+      "precinct_label": "47 COVILLI",
+      "reg_voters": 0,
+      "total_votes": 17,
+      "CHRISTINE HYMAN": 5,
+      "ADAM BERTRAND": 4,
+      "RANDY COOK JR.": 2,
+      "JUSTIN MCCOY": 1,
+      "RICK RICE": 2,
+      "MIKE HOEHN": 3
+    },
+    "71": {
+      "precinct_label": "71 FAIRWAYS",
+      "reg_voters": 3113,
+      "total_votes": 227,
+      "CHRISTINE HYMAN": 55,
+      "ADAM BERTRAND": 55,
+      "RANDY COOK JR.": 55,
+      "JUSTIN MCCOY": 40,
+      "RICK RICE": 4,
+      "MIKE HOEHN": 18
+    },
+    "80": {
+      "precinct_label": "80 HERITAGE",
+      "reg_voters": 1700,
+      "total_votes": 430,
+      "CHRISTINE HYMAN": 101,
+      "ADAM BERTRAND": 102,
+      "RANDY COOK JR.": 103,
+      "JUSTIN MCCOY": 94,
+      "RICK RICE": 9,
+      "MIKE HOEHN": 21
+    },
+    "83": {
+      "precinct_label": "83 WOODCLIFF",
+      "reg_voters": 1338,
+      "total_votes": 624,
+      "CHRISTINE HYMAN": 104,
+      "ADAM BERTRAND": 184,
+      "RANDY COOK JR.": 192,
+      "JUSTIN MCCOY": 99,
+      "RICK RICE": 20,
+      "MIKE HOEHN": 25
+    },
+    "84": {
+      "precinct_label": "84 HARVESTER",
+      "reg_voters": 2922,
+      "total_votes": 692,
+      "CHRISTINE HYMAN": 153,
+      "ADAM BERTRAND": 172,
+      "RANDY COOK JR.": 167,
+      "JUSTIN MCCOY": 137,
+      "RICK RICE": 16,
+      "MIKE HOEHN": 47
+    },
+    "85": {
+      "precinct_label": "85 SYCAMORE",
+      "reg_voters": 3779,
+      "total_votes": 1012,
+      "CHRISTINE HYMAN": 216,
+      "ADAM BERTRAND": 222,
+      "RANDY COOK JR.": 234,
+      "JUSTIN MCCOY": 195,
+      "RICK RICE": 33,
+      "MIKE HOEHN": 112
+    },
+    "86": {
+      "precinct_label": "86 ARLINGTON",
+      "reg_voters": 3129,
+      "total_votes": 914,
+      "CHRISTINE HYMAN": 188,
+      "ADAM BERTRAND": 254,
+      "RANDY COOK JR.": 246,
+      "JUSTIN MCCOY": 177,
+      "RICK RICE": 17,
+      "MIKE HOEHN": 32
+    },
+    "87": {
+      "precinct_label": "87 RIVER BEND",
+      "reg_voters": 1843,
+      "total_votes": 687,
+      "CHRISTINE HYMAN": 143,
+      "ADAM BERTRAND": 180,
+      "RANDY COOK JR.": 184,
+      "JUSTIN MCCOY": 132,
+      "RICK RICE": 20,
+      "MIKE HOEHN": 28
+    },
+    "91": {
+      "precinct_label": "91 KATY TRAIL",
+      "reg_voters": 3729,
+      "total_votes": 1179,
+      "CHRISTINE HYMAN": 226,
+      "ADAM BERTRAND": 319,
+      "RANDY COOK JR.": 318,
+      "JUSTIN MCCOY": 210,
+      "RICK RICE": 27,
+      "MIKE HOEHN": 79
+    },
+    "101": {
+      "precinct_label": "101 GRAYBRIDGE",
+      "reg_voters": 1256,
+      "total_votes": 452,
+      "CHRISTINE HYMAN": 100,
+      "ADAM BERTRAND": 100,
+      "RANDY COOK JR.": 111,
+      "JUSTIN MCCOY": 90,
+      "RICK RICE": 13,
+      "MIKE HOEHN": 38
+    },
+    "102": {
+      "precinct_label": "102 TANGLEWOOD",
+      "reg_voters": 2185,
+      "total_votes": 619,
+      "CHRISTINE HYMAN": 135,
+      "ADAM BERTRAND": 160,
+      "RANDY COOK JR.": 158,
+      "JUSTIN MCCOY": 109,
+      "RICK RICE": 11,
+      "MIKE HOEHN": 46
+    },
+    "104": {
+      "precinct_label": "104 HI POINT",
+      "reg_voters": 1522,
+      "total_votes": 581,
+      "CHRISTINE HYMAN": 108,
+      "ADAM BERTRAND": 154,
+      "RANDY COOK JR.": 164,
+      "JUSTIN MCCOY": 99,
+      "RICK RICE": 17,
+      "MIKE HOEHN": 39
+    },
+    "111": {
+      "precinct_label": "111 WOODSTREAM",
+      "reg_voters": 2763,
+      "total_votes": 665,
+      "CHRISTINE HYMAN": 122,
+      "ADAM BERTRAND": 185,
+      "RANDY COOK JR.": 180,
+      "JUSTIN MCCOY": 121,
+      "RICK RICE": 16,
+      "MIKE HOEHN": 41
+    },
+    "113": {
+      "precinct_label": "113 BRIARHILL",
+      "reg_voters": 2649,
+      "total_votes": 807,
+      "CHRISTINE HYMAN": 145,
+      "ADAM BERTRAND": 221,
+      "RANDY COOK JR.": 214,
+      "JUSTIN MCCOY": 137,
+      "RICK RICE": 34,
+      "MIKE HOEHN": 56
+    },
+    "124": {
+      "precinct_label": "124 RABBIT RUN",
+      "reg_voters": 1969,
+      "total_votes": 283,
+      "CHRISTINE HYMAN": 59,
+      "ADAM BERTRAND": 65,
+      "RANDY COOK JR.": 71,
+      "JUSTIN MCCOY": 46,
+      "RICK RICE": 14,
+      "MIKE HOEHN": 28
+    },
+    "126": {
+      "precinct_label": "126 MEADOW VALLEY",
+      "reg_voters": 2300,
+      "total_votes": 658,
+      "CHRISTINE HYMAN": 147,
+      "ADAM BERTRAND": 163,
+      "RANDY COOK JR.": 165,
+      "JUSTIN MCCOY": 131,
+      "RICK RICE": 14,
+      "MIKE HOEHN": 38
+    },
+    "128": {
+      "precinct_label": "128 FAIRMONT",
+      "reg_voters": 2017,
+      "total_votes": 439,
+      "CHRISTINE HYMAN": 111,
+      "ADAM BERTRAND": 88,
+      "RANDY COOK JR.": 95,
+      "JUSTIN MCCOY": 96,
+      "RICK RICE": 14,
+      "MIKE HOEHN": 35
+    },
+    "129": {
+      "precinct_label": "129 PARKWOOD",
+      "reg_voters": 1625,
+      "total_votes": 408,
+      "CHRISTINE HYMAN": 73,
+      "ADAM BERTRAND": 105,
+      "RANDY COOK JR.": 117,
+      "JUSTIN MCCOY": 66,
+      "RICK RICE": 13,
+      "MIKE HOEHN": 34
+    },
+    "130": {
+      "precinct_label": "130 LAKES",
+      "reg_voters": 1167,
+      "total_votes": 388,
+      "CHRISTINE HYMAN": 94,
+      "ADAM BERTRAND": 81,
+      "RANDY COOK JR.": 90,
+      "JUSTIN MCCOY": 92,
+      "RICK RICE": 14,
+      "MIKE HOEHN": 17
+    },
+    "132": {
+      "precinct_label": "132 COUNTRY HILL",
+      "reg_voters": 0,
+      "total_votes": 152,
+      "CHRISTINE HYMAN": 31,
+      "ADAM BERTRAND": 43,
+      "RANDY COOK JR.": 40,
+      "JUSTIN MCCOY": 22,
+      "RICK RICE": 9,
+      "MIKE HOEHN": 7
+    },
+    "146": {
+      "precinct_label": "146 ST. JUDE",
+      "reg_voters": 0,
+      "total_votes": 378,
+      "CHRISTINE HYMAN": 91,
+      "ADAM BERTRAND": 87,
+      "RANDY COOK JR.": 88,
+      "JUSTIN MCCOY": 81,
+      "RICK RICE": 12,
+      "MIKE HOEHN": 19
+    },
+    "147": {
+      "precinct_label": "147 COTTLEVILLE",
+      "reg_voters": 2388,
+      "total_votes": 629,
+      "CHRISTINE HYMAN": 122,
+      "ADAM BERTRAND": 166,
+      "RANDY COOK JR.": 152,
+      "JUSTIN MCCOY": 111,
+      "RICK RICE": 25,
+      "MIKE HOEHN": 53
+    },
+    "150": {
+      "precinct_label": "150 TIMBERWOOD",
+      "reg_voters": 1164,
+      "total_votes": 534,
+      "CHRISTINE HYMAN": 113,
+      "ADAM BERTRAND": 136,
+      "RANDY COOK JR.": 128,
+      "JUSTIN MCCOY": 89,
+      "RICK RICE": 20,
+      "MIKE HOEHN": 48
+    },
+    "152": {
+      "precinct_label": "152 WOODGLEN",
+      "reg_voters": 2410,
+      "total_votes": 697,
+      "CHRISTINE HYMAN": 145,
+      "ADAM BERTRAND": 177,
+      "RANDY COOK JR.": 169,
+      "JUSTIN MCCOY": 127,
+      "RICK RICE": 28,
+      "MIKE HOEHN": 51
+    },
+    "154": {
+      "precinct_label": "154 WHEATFIELD",
+      "reg_voters": 3226,
+      "total_votes": 374,
+      "CHRISTINE HYMAN": 72,
+      "ADAM BERTRAND": 113,
+      "RANDY COOK JR.": 102,
+      "JUSTIN MCCOY": 61,
+      "RICK RICE": 7,
+      "MIKE HOEHN": 19
+    },
+    "155": {
+      "precinct_label": "155 GREEN FOREST",
+      "reg_voters": 0,
+      "total_votes": 14,
+      "CHRISTINE HYMAN": 2,
+      "ADAM BERTRAND": 3,
+      "RANDY COOK JR.": 3,
+      "JUSTIN MCCOY": 3,
+      "RICK RICE": 1,
+      "MIKE HOEHN": 2
+    },
+    "206": {
+      "precinct_label": "206 MONTICELLO",
+      "reg_voters": 3990,
+      "total_votes": 1029,
+      "CHRISTINE HYMAN": 231,
+      "ADAM BERTRAND": 237,
+      "RANDY COOK JR.": 246,
+      "JUSTIN MCCOY": 200,
+      "RICK RICE": 34,
+      "MIKE HOEHN": 81
+    },
+    "207": {
+      "precinct_label": "207 CARRIAGE HILLS",
+      "reg_voters": 2780,
+      "total_votes": 212,
+      "CHRISTINE HYMAN": 34,
+      "ADAM BERTRAND": 70,
+      "RANDY COOK JR.": 68,
+      "JUSTIN MCCOY": 26,
+      "RICK RICE": 3,
+      "MIKE HOEHN": 11
+    },
+    "211": {
+      "precinct_label": "211 SUMMERSET",
+      "reg_voters": 0,
+      "total_votes": 21,
+      "CHRISTINE HYMAN": 1,
+      "ADAM BERTRAND": 7,
+      "RANDY COOK JR.": 7,
+      "JUSTIN MCCOY": 1,
+      "RICK RICE": 2,
+      "MIKE HOEHN": 3
+    },
+    "214": {
+      "precinct_label": "214 HAWK RIDGE",
+      "reg_voters": 0,
+      "total_votes": 72,
+      "CHRISTINE HYMAN": 11,
+      "ADAM BERTRAND": 22,
+      "RANDY COOK JR.": 26,
+      "JUSTIN MCCOY": 7,
+      "RICK RICE": 1,
+      "MIKE HOEHN": 5
+    },
+    "215": {
+      "precinct_label": "215 COACHMAN",
+      "reg_voters": 0,
+      "total_votes": 416,
+      "CHRISTINE HYMAN": 107,
+      "ADAM BERTRAND": 94,
+      "RANDY COOK JR.": 94,
+      "JUSTIN MCCOY": 79,
+      "RICK RICE": 7,
+      "MIKE HOEHN": 35
+    },
+    "219": {
+      "precinct_label": "219 WESTFIELD",
+      "reg_voters": 1804,
+      "total_votes": 255,
+      "CHRISTINE HYMAN": 49,
+      "ADAM BERTRAND": 61,
+      "RANDY COOK JR.": 59,
+      "JUSTIN MCCOY": 34,
+      "RICK RICE": 10,
+      "MIKE HOEHN": 42
+    },
+    "220": {
+      "precinct_label": "220 PITMAN",
+      "reg_voters": 1311,
+      "total_votes": 424,
+      "CHRISTINE HYMAN": 100,
+      "ADAM BERTRAND": 90,
+      "RANDY COOK JR.": 88,
+      "JUSTIN MCCOY": 94,
+      "RICK RICE": 15,
+      "MIKE HOEHN": 37
+    },
+    "221": {
+      "precinct_label": "221 WELDON SPRINGS",
+      "reg_voters": 1492,
+      "total_votes": 516,
+      "CHRISTINE HYMAN": 70,
+      "ADAM BERTRAND": 175,
+      "RANDY COOK JR.": 171,
+      "JUSTIN MCCOY": 44,
+      "RICK RICE": 18,
+      "MIKE HOEHN": 38
+    },
+    "222": {
+      "precinct_label": "222 NEW MELLE",
+      "reg_voters": 2312,
+      "total_votes": 640,
+      "CHRISTINE HYMAN": 63,
+      "ADAM BERTRAND": 225,
+      "RANDY COOK JR.": 240,
+      "JUSTIN MCCOY": 56,
+      "RICK RICE": 18,
+      "MIKE HOEHN": 38
+    },
+    "225": {
+      "precinct_label": "225 AUGUSTA",
+      "reg_voters": 0,
+      "total_votes": 55,
+      "CHRISTINE HYMAN": 7,
+      "ADAM BERTRAND": 15,
+      "RANDY COOK JR.": 18,
+      "JUSTIN MCCOY": 8,
+      "RICK RICE": 2,
+      "MIKE HOEHN": 5
+    },
+    "227": {
+      "precinct_label": "227 WHITMOOR",
+      "reg_voters": 3402,
+      "total_votes": 967,
+      "CHRISTINE HYMAN": 134,
+      "ADAM BERTRAND": 295,
+      "RANDY COOK JR.": 291,
+      "JUSTIN MCCOY": 116,
+      "RICK RICE": 43,
+      "MIKE HOEHN": 88
+    },
+    "228": {
+      "precinct_label": "228 SHOSHONE",
+      "reg_voters": 3526,
+      "total_votes": 883,
+      "CHRISTINE HYMAN": 180,
+      "ADAM BERTRAND": 238,
+      "RANDY COOK JR.": 226,
+      "JUSTIN MCCOY": 138,
+      "RICK RICE": 33,
+      "MIKE HOEHN": 68
+    },
+    "229": {
+      "precinct_label": "229 CALLAWAY",
+      "reg_voters": 0,
+      "total_votes": 853,
+      "CHRISTINE HYMAN": 105,
+      "ADAM BERTRAND": 292,
+      "RANDY COOK JR.": 291,
+      "JUSTIN MCCOY": 94,
+      "RICK RICE": 22,
+      "MIKE HOEHN": 49
+    },
+    "230": {
+      "precinct_label": "230 CLAYBROOK",
+      "reg_voters": 1411,
+      "total_votes": 379,
+      "CHRISTINE HYMAN": 63,
+      "ADAM BERTRAND": 98,
+      "RANDY COOK JR.": 92,
+      "JUSTIN MCCOY": 65,
+      "RICK RICE": 32,
+      "MIKE HOEHN": 29
+    },
+    "231": {
+      "precinct_label": "231 WOLFRUM",
+      "reg_voters": 1903,
+      "total_votes": 785,
+      "CHRISTINE HYMAN": 105,
+      "ADAM BERTRAND": 240,
+      "RANDY COOK JR.": 254,
+      "JUSTIN MCCOY": 85,
+      "RICK RICE": 30,
+      "MIKE HOEHN": 71
+    },
+    "234": {
+      "precinct_label": "234 WINDCASTLE",
+      "reg_voters": 1514,
+      "total_votes": 461,
+      "CHRISTINE HYMAN": 60,
+      "ADAM BERTRAND": 151,
+      "RANDY COOK JR.": 151,
+      "JUSTIN MCCOY": 45,
+      "RICK RICE": 18,
+      "MIKE HOEHN": 36
+    }
+  },
+  "non_map_precincts": {
+    "ABSENTEE": {
+      "precinct_label": "ABSENTEE",
+      "reg_voters": 0,
+      "total_votes": 1385,
+      "CHRISTINE HYMAN": 343,
+      "ADAM BERTRAND": 291,
+      "RANDY COOK JR.": 290,
+      "JUSTIN MCCOY": 245,
+      "RICK RICE": 74,
+      "MIKE HOEHN": 142
+    }
+  }
+}

@@ -1,0 +1,485 @@
+{
+  "year": 2023,
+  "election_date": "2023-04-04",
+  "race": "FRANCIS HOWELL R-III SCHOOL BOARD MEMBER",
+  "seats": 3,
+  "candidates": [
+    "DOUG ZIEGEMEIER",
+    "ANDREW FLETT",
+    "AMY EASTERLING",
+    "JANE PUSZKAR",
+    "MARK PONDER",
+    "RON HARMON",
+    "HARRY HARRIS"
+  ],
+  "slates": {
+    "fh_families": [
+      "JANE PUSZKAR",
+      "MARK PONDER",
+      "RON HARMON"
+    ],
+    "fh_forward": [
+      "ANDREW FLETT",
+      "AMY EASTERLING",
+      "HARRY HARRIS"
+    ],
+    "independent": [
+      "DOUG ZIEGEMEIER"
+    ]
+  },
+  "totals": {
+    "registered_voters": 80919,
+    "total_votes": 48585,
+    "DOUG ZIEGEMEIER": 6962,
+    "ANDREW FLETT": 1263,
+    "AMY EASTERLING": 7300,
+    "JANE PUSZKAR": 9023,
+    "MARK PONDER": 8870,
+    "RON HARMON": 8746,
+    "HARRY HARRIS": 6331
+  },
+  "precincts": {
+    "213": {
+      "reg_voters": 2273,
+      "total_votes": 1013,
+      "DOUG ZIEGEMEIER": 88,
+      "ANDREW FLETT": 16,
+      "AMY EASTERLING": 89,
+      "JANE PUSZKAR": 250,
+      "MARK PONDER": 247,
+      "RON HARMON": 244,
+      "HARRY HARRIS": 78
+    },
+    "214": {
+      "reg_voters": 2844,
+      "total_votes": 1287,
+      "DOUG ZIEGEMEIER": 114,
+      "ANDREW FLETT": 25,
+      "AMY EASTERLING": 122,
+      "JANE PUSZKAR": 304,
+      "MARK PONDER": 307,
+      "RON HARMON": 306,
+      "HARRY HARRIS": 107
+    },
+    "215": {
+      "reg_voters": 0,
+      "total_votes": 153,
+      "DOUG ZIEGEMEIER": 14,
+      "ANDREW FLETT": 2,
+      "AMY EASTERLING": 15,
+      "JANE PUSZKAR": 36,
+      "MARK PONDER": 36,
+      "RON HARMON": 36,
+      "HARRY HARRIS": 14
+    },
+    "301": {
+      "reg_voters": 0,
+      "total_votes": 1527,
+      "DOUG ZIEGEMEIER": 229,
+      "ANDREW FLETT": 39,
+      "AMY EASTERLING": 243,
+      "JANE PUSZKAR": 269,
+      "MARK PONDER": 268,
+      "RON HARMON": 273,
+      "HARRY HARRIS": 202
+    },
+    "303": {
+      "reg_voters": 1921,
+      "total_votes": 483,
+      "DOUG ZIEGEMEIER": 62,
+      "ANDREW FLETT": 20,
+      "AMY EASTERLING": 65,
+      "JANE PUSZKAR": 89,
+      "MARK PONDER": 99,
+      "RON HARMON": 86,
+      "HARRY HARRIS": 61
+    },
+    "304": {
+      "reg_voters": 3006,
+      "total_votes": 1966,
+      "DOUG ZIEGEMEIER": 290,
+      "ANDREW FLETT": 44,
+      "AMY EASTERLING": 292,
+      "JANE PUSZKAR": 367,
+      "MARK PONDER": 351,
+      "RON HARMON": 356,
+      "HARRY HARRIS": 258
+    },
+    "305": {
+      "reg_voters": 3205,
+      "total_votes": 1566,
+      "DOUG ZIEGEMEIER": 239,
+      "ANDREW FLETT": 35,
+      "AMY EASTERLING": 249,
+      "JANE PUSZKAR": 267,
+      "MARK PONDER": 277,
+      "RON HARMON": 257,
+      "HARRY HARRIS": 240
+    },
+    "306": {
+      "reg_voters": 0,
+      "total_votes": 977,
+      "DOUG ZIEGEMEIER": 142,
+      "ANDREW FLETT": 28,
+      "AMY EASTERLING": 153,
+      "JANE PUSZKAR": 184,
+      "MARK PONDER": 173,
+      "RON HARMON": 167,
+      "HARRY HARRIS": 129
+    },
+    "307": {
+      "reg_voters": 0,
+      "total_votes": 1682,
+      "DOUG ZIEGEMEIER": 268,
+      "ANDREW FLETT": 33,
+      "AMY EASTERLING": 275,
+      "JANE PUSZKAR": 288,
+      "MARK PONDER": 279,
+      "RON HARMON": 274,
+      "HARRY HARRIS": 258
+    },
+    "316": {
+      "reg_voters": 896,
+      "total_votes": 181,
+      "DOUG ZIEGEMEIER": 15,
+      "ANDREW FLETT": 1,
+      "AMY EASTERLING": 16,
+      "JANE PUSZKAR": 44,
+      "MARK PONDER": 47,
+      "RON HARMON": 45,
+      "HARRY HARRIS": 13
+    },
+    "317": {
+      "reg_voters": 401,
+      "total_votes": 217,
+      "DOUG ZIEGEMEIER": 25,
+      "ANDREW FLETT": 3,
+      "AMY EASTERLING": 26,
+      "JANE PUSZKAR": 49,
+      "MARK PONDER": 45,
+      "RON HARMON": 46,
+      "HARRY HARRIS": 23
+    },
+    "401": {
+      "reg_voters": 1949,
+      "total_votes": 552,
+      "DOUG ZIEGEMEIER": 96,
+      "ANDREW FLETT": 16,
+      "AMY EASTERLING": 99,
+      "JANE PUSZKAR": 83,
+      "MARK PONDER": 84,
+      "RON HARMON": 82,
+      "HARRY HARRIS": 91
+    },
+    "506": {
+      "reg_voters": 0,
+      "total_votes": 1901,
+      "DOUG ZIEGEMEIER": 308,
+      "ANDREW FLETT": 65,
+      "AMY EASTERLING": 321,
+      "JANE PUSZKAR": 315,
+      "MARK PONDER": 313,
+      "RON HARMON": 302,
+      "HARRY HARRIS": 276
+    },
+    "508": {
+      "reg_voters": 0,
+      "total_votes": 160,
+      "DOUG ZIEGEMEIER": 14,
+      "ANDREW FLETT": 6,
+      "AMY EASTERLING": 18,
+      "JANE PUSZKAR": 35,
+      "MARK PONDER": 34,
+      "RON HARMON": 37,
+      "HARRY HARRIS": 13
+    },
+    "509": {
+      "reg_voters": 2454,
+      "total_votes": 995,
+      "DOUG ZIEGEMEIER": 171,
+      "ANDREW FLETT": 28,
+      "AMY EASTERLING": 196,
+      "JANE PUSZKAR": 177,
+      "MARK PONDER": 139,
+      "RON HARMON": 143,
+      "HARRY HARRIS": 140
+    },
+    "510": {
+      "reg_voters": 1785,
+      "total_votes": 1219,
+      "DOUG ZIEGEMEIER": 178,
+      "ANDREW FLETT": 40,
+      "AMY EASTERLING": 181,
+      "JANE PUSZKAR": 231,
+      "MARK PONDER": 217,
+      "RON HARMON": 215,
+      "HARRY HARRIS": 157
+    },
+    "511": {
+      "reg_voters": 3318,
+      "total_votes": 1857,
+      "DOUG ZIEGEMEIER": 298,
+      "ANDREW FLETT": 49,
+      "AMY EASTERLING": 292,
+      "JANE PUSZKAR": 318,
+      "MARK PONDER": 306,
+      "RON HARMON": 317,
+      "HARRY HARRIS": 261
+    },
+    "512": {
+      "reg_voters": 0,
+      "total_votes": 603,
+      "DOUG ZIEGEMEIER": 86,
+      "ANDREW FLETT": 13,
+      "AMY EASTERLING": 81,
+      "JANE PUSZKAR": 124,
+      "MARK PONDER": 113,
+      "RON HARMON": 117,
+      "HARRY HARRIS": 68
+    },
+    "514": {
+      "reg_voters": 2107,
+      "total_votes": 1154,
+      "DOUG ZIEGEMEIER": 187,
+      "ANDREW FLETT": 48,
+      "AMY EASTERLING": 211,
+      "JANE PUSZKAR": 168,
+      "MARK PONDER": 171,
+      "RON HARMON": 176,
+      "HARRY HARRIS": 190
+    },
+    "515": {
+      "reg_voters": 2220,
+      "total_votes": 1142,
+      "DOUG ZIEGEMEIER": 174,
+      "ANDREW FLETT": 40,
+      "AMY EASTERLING": 187,
+      "JANE PUSZKAR": 191,
+      "MARK PONDER": 192,
+      "RON HARMON": 187,
+      "HARRY HARRIS": 168
+    },
+    "516": {
+      "reg_voters": 2112,
+      "total_votes": 1043,
+      "DOUG ZIEGEMEIER": 148,
+      "ANDREW FLETT": 18,
+      "AMY EASTERLING": 154,
+      "JANE PUSZKAR": 194,
+      "MARK PONDER": 194,
+      "RON HARMON": 194,
+      "HARRY HARRIS": 140
+    },
+    "517": {
+      "reg_voters": 3732,
+      "total_votes": 1670,
+      "DOUG ZIEGEMEIER": 263,
+      "ANDREW FLETT": 42,
+      "AMY EASTERLING": 275,
+      "JANE PUSZKAR": 285,
+      "MARK PONDER": 278,
+      "RON HARMON": 280,
+      "HARRY HARRIS": 243
+    },
+    "616": {
+      "reg_voters": 0,
+      "total_votes": 356,
+      "DOUG ZIEGEMEIER": 57,
+      "ANDREW FLETT": 16,
+      "AMY EASTERLING": 61,
+      "JANE PUSZKAR": 66,
+      "MARK PONDER": 56,
+      "RON HARMON": 60,
+      "HARRY HARRIS": 39
+    },
+    "617": {
+      "reg_voters": 3912,
+      "total_votes": 154,
+      "DOUG ZIEGEMEIER": 24,
+      "ANDREW FLETT": 3,
+      "AMY EASTERLING": 21,
+      "JANE PUSZKAR": 31,
+      "MARK PONDER": 29,
+      "RON HARMON": 25,
+      "HARRY HARRIS": 21
+    },
+    "701": {
+      "reg_voters": 4971,
+      "total_votes": 557,
+      "DOUG ZIEGEMEIER": 90,
+      "ANDREW FLETT": 13,
+      "AMY EASTERLING": 102,
+      "JANE PUSZKAR": 94,
+      "MARK PONDER": 89,
+      "RON HARMON": 89,
+      "HARRY HARRIS": 76
+    },
+    "702": {
+      "reg_voters": 2865,
+      "total_votes": 1291,
+      "DOUG ZIEGEMEIER": 204,
+      "ANDREW FLETT": 43,
+      "AMY EASTERLING": 220,
+      "JANE PUSZKAR": 212,
+      "MARK PONDER": 212,
+      "RON HARMON": 208,
+      "HARRY HARRIS": 191
+    },
+    "703": {
+      "reg_voters": 2178,
+      "total_votes": 1302,
+      "DOUG ZIEGEMEIER": 180,
+      "ANDREW FLETT": 39,
+      "AMY EASTERLING": 201,
+      "JANE PUSZKAR": 228,
+      "MARK PONDER": 239,
+      "RON HARMON": 233,
+      "HARRY HARRIS": 182
+    },
+    "704": {
+      "reg_voters": 3399,
+      "total_votes": 2147,
+      "DOUG ZIEGEMEIER": 299,
+      "ANDREW FLETT": 37,
+      "AMY EASTERLING": 301,
+      "JANE PUSZKAR": 406,
+      "MARK PONDER": 425,
+      "RON HARMON": 402,
+      "HARRY HARRIS": 277
+    },
+    "705": {
+      "reg_voters": 2270,
+      "total_votes": 1587,
+      "DOUG ZIEGEMEIER": 217,
+      "ANDREW FLETT": 35,
+      "AMY EASTERLING": 218,
+      "JANE PUSZKAR": 306,
+      "MARK PONDER": 310,
+      "RON HARMON": 305,
+      "HARRY HARRIS": 196
+    },
+    "706": {
+      "reg_voters": 3055,
+      "total_votes": 1586,
+      "DOUG ZIEGEMEIER": 223,
+      "ANDREW FLETT": 49,
+      "AMY EASTERLING": 215,
+      "JANE PUSZKAR": 306,
+      "MARK PONDER": 312,
+      "RON HARMON": 291,
+      "HARRY HARRIS": 190
+    },
+    "707": {
+      "reg_voters": 3315,
+      "total_votes": 1435,
+      "DOUG ZIEGEMEIER": 252,
+      "ANDREW FLETT": 38,
+      "AMY EASTERLING": 261,
+      "JANE PUSZKAR": 217,
+      "MARK PONDER": 222,
+      "RON HARMON": 209,
+      "HARRY HARRIS": 233
+    },
+    "708": {
+      "reg_voters": 1973,
+      "total_votes": 768,
+      "DOUG ZIEGEMEIER": 108,
+      "ANDREW FLETT": 12,
+      "AMY EASTERLING": 124,
+      "JANE PUSZKAR": 152,
+      "MARK PONDER": 138,
+      "RON HARMON": 131,
+      "HARRY HARRIS": 102
+    },
+    "709": {
+      "reg_voters": 4507,
+      "total_votes": 2060,
+      "DOUG ZIEGEMEIER": 352,
+      "ANDREW FLETT": 49,
+      "AMY EASTERLING": 360,
+      "JANE PUSZKAR": 328,
+      "MARK PONDER": 327,
+      "RON HARMON": 322,
+      "HARRY HARRIS": 321
+    },
+    "710": {
+      "reg_voters": 4085,
+      "total_votes": 2183,
+      "DOUG ZIEGEMEIER": 308,
+      "ANDREW FLETT": 46,
+      "AMY EASTERLING": 319,
+      "JANE PUSZKAR": 394,
+      "MARK PONDER": 400,
+      "RON HARMON": 397,
+      "HARRY HARRIS": 317
+    },
+    "711": {
+      "reg_voters": 1856,
+      "total_votes": 1137,
+      "DOUG ZIEGEMEIER": 124,
+      "ANDREW FLETT": 20,
+      "AMY EASTERLING": 123,
+      "JANE PUSZKAR": 252,
+      "MARK PONDER": 253,
+      "RON HARMON": 258,
+      "HARRY HARRIS": 105
+    },
+    "712": {
+      "reg_voters": 3604,
+      "total_votes": 2521,
+      "DOUG ZIEGEMEIER": 246,
+      "ANDREW FLETT": 48,
+      "AMY EASTERLING": 254,
+      "JANE PUSZKAR": 587,
+      "MARK PONDER": 591,
+      "RON HARMON": 567,
+      "HARRY HARRIS": 218
+    },
+    "713": {
+      "reg_voters": 3808,
+      "total_votes": 1738,
+      "DOUG ZIEGEMEIER": 244,
+      "ANDREW FLETT": 52,
+      "AMY EASTERLING": 239,
+      "JANE PUSZKAR": 328,
+      "MARK PONDER": 329,
+      "RON HARMON": 323,
+      "HARRY HARRIS": 221
+    },
+    "714": {
+      "reg_voters": 898,
+      "total_votes": 434,
+      "DOUG ZIEGEMEIER": 41,
+      "ANDREW FLETT": 10,
+      "AMY EASTERLING": 42,
+      "JANE PUSZKAR": 104,
+      "MARK PONDER": 100,
+      "RON HARMON": 100,
+      "HARRY HARRIS": 37
+    }
+  },
+  "non_map_precincts": {
+    "CENTRAL 1": {
+      "reg_voters": 0,
+      "total_votes": 15,
+      "DOUG ZIEGEMEIER": 3,
+      "ANDREW FLETT": 2,
+      "AMY EASTERLING": 4,
+      "JANE PUSZKAR": 2,
+      "MARK PONDER": 1,
+      "RON HARMON": 1,
+      "HARRY HARRIS": 2
+    },
+    "ABSENTEE": {
+      "reg_voters": 0,
+      "total_votes": 3966,
+      "DOUG ZIEGEMEIER": 581,
+      "ANDREW FLETT": 140,
+      "AMY EASTERLING": 675,
+      "JANE PUSZKAR": 742,
+      "MARK PONDER": 667,
+      "RON HARMON": 685,
+      "HARRY HARRIS": 473
+    }
+  }
+}

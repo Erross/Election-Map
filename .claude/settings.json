@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(mkdir -p \"c:/Election Map/election-app/src/components\" \"c:/Election Map/election-app/src/utils\" \"c:/Election Map/election-app/src/data\")",
+      "Bash(cp \"c:/Election Map/fhsd-election-map/data/precincts.geojson\" \"c:/Election Map/election-app/public/precincts.geojson\")",
+      "Bash(cp \"c:/Election Map/fhsd-election-map/data/fhsd_2022.json\" \"c:/Election Map/election-app/public/fhsd_2022.json\")",
+      "Bash(cp \"c:/Election Map/fhsd-election-map/data/fhsd_2023.json\" \"c:/Election Map/election-app/public/fhsd_2023.json\")",
+      "Bash(cp \"c:/Election Map/fhsd-election-map/data/fhsd_2024.json\" \"c:/Election Map/election-app/public/fhsd_2024.json\")",
+      "Bash(npm run:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(curl -s http://localhost:5173)"
+    ]
+  }
+}

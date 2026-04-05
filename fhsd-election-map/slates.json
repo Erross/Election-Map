@@ -1,0 +1,97 @@
+{
+  "slates": {
+    "2026": {
+      "seats": 3,
+      "fh_families": {
+        "label": "FH Families",
+        "color": "red",
+        "candidates": ["LAUREN GREENWOOD", "DAVID JAWORSKI", "JANE PUSZKAR"]
+      },
+      "fh_forward": {
+        "label": "FH Forward",
+        "color": "blue",
+        "candidates": ["JASON ADAMS", "SARA DILLARD", "KEVIN MCGUIRE"]
+      },
+      "independent": {
+        "candidates": []
+      }
+    },
+    "2025": {
+      "seats": 2,
+      "fh_families": {
+        "label": "FH Families",
+        "color": "red",
+        "candidates": ["RANDY COOK", "ASHLEY STURM"]
+      },
+      "fh_forward": {
+        "label": "FH Forward",
+        "color": "blue",
+        "candidates": ["AMY GRYDER", "SARAH OELKE"]
+      },
+      "independent": {
+        "candidates": []
+      },
+      "winner": "fh_forward"
+    },
+    "2024": {
+      "seats": 2,
+      "fh_families": {
+        "label": "FH Families",
+        "color": "red",
+        "candidates": ["ADRIANA KUHN", "SAM YOUNG"]
+      },
+      "fh_forward": {
+        "label": "FH Forward",
+        "color": "blue",
+        "candidates": ["STEVEN BLAIR", "CAROLIE OWENS"]
+      },
+      "independent": {
+        "candidates": []
+      },
+      "winner": "fh_forward"
+    },
+    "2023": {
+      "seats": 3,
+      "fh_families": {
+        "label": "FH Families",
+        "color": "red",
+        "candidates": ["RON HARMON", "MARK PONDER", "JANE PUSZKAR"]
+      },
+      "fh_forward": {
+        "label": "FH Forward",
+        "color": "blue",
+        "candidates": ["AMY EASTERLING", "ANDREW FLETT", "HARRY HARRIS"]
+      },
+      "independent": {
+        "candidates": ["DOUGLAS ZIEGEMEIER", "PATRICK LANE", "AUDREY TREECE"],
+        "note": "Independents - exclude from slate margin calculations"
+      },
+      "winner": "fh_families"
+    },
+    "2022": {
+      "seats": 2,
+      "fh_families": {
+        "label": "FH Families",
+        "color": "red",
+        "candidates": ["ADAM BERTRAND", "RANDY COOK"]
+      },
+      "fh_forward": {
+        "label": "Opposing candidates",
+        "color": "blue",
+        "candidates": [],
+        "note": "FH Forward did not run a formal slate in 2022. Identify non-FHFamilies candidates from the PDF and group as opposition. This is the BASELINE year."
+      },
+      "independent": {
+        "candidates": []
+      },
+      "winner": "fh_families",
+      "is_baseline": true
+    }
+  },
+  "notes": {
+    "candidate_name_matching": "Candidate names in the Statement of Votes Cast PDFs are ALL CAPS and may be truncated. Match flexibly using last name.",
+    "vote_share_formula": "slate_share = sum(slate_candidate_votes) / total_votes_in_precinct",
+    "margin_formula": "margin = fh_families_share - fh_forward_share (positive = FHFam lead)",
+    "swing_formula": "swing = current_margin - comparison_year_margin (positive = swing toward FHFam)"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(curl *)",
+      "Bash(mkdir *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(cp *)",
+      "Bash(python *)",
+      "Bash(pip *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push *)"
+    ]
+  }
+}
