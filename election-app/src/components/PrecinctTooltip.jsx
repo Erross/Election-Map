@@ -1,6 +1,7 @@
 import { useMap } from 'react-leaflet';
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
+import { COLOR_FAMILIES, COLOR_FORWARD } from '../utils/colorScale';
 
 function pct(n, d) {
   if (!d) return '–';
@@ -65,9 +66,9 @@ export default function PrecinctTooltip({ hoverInfo }) {
       }).join('');
 
     candidateRows += `<div style="font-size:11px;color:#6b7280;margin-bottom:2px">FH Families</div>`;
-    candidateRows += renderCandidates(fh_families, '#b91c1c');
+    candidateRows += renderCandidates(fh_families, COLOR_FAMILIES);
     candidateRows += `<div style="font-size:11px;color:#6b7280;margin:4px 0 2px">FH Forward</div>`;
-    candidateRows += renderCandidates(fh_forward, '#1d4ed8');
+    candidateRows += renderCandidates(fh_forward, COLOR_FORWARD);
 
     if (independent?.length) {
       candidateRows += `<div style="font-size:11px;color:#6b7280;margin:4px 0 2px">Independent</div>`;

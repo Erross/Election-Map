@@ -4,13 +4,18 @@ import {
   buildMarginMap,
   computeAggregateMarginFromTotals,
 } from '../utils/slateCalculator';
+import { COLOR_FAMILIES, COLOR_FORWARD } from '../utils/colorScale';
+
+// Palette aliases — amber for FH Families, teal for FH Forward
+const C_FAM = COLOR_FAMILIES; // #b45309 amber-700
+const C_FWD = COLOR_FORWARD;  // #0f766e teal-700
 
 function fmt(n) { return n?.toLocaleString() ?? '–'; }
 
-function pctStr(n, withSign = true) {
+function pctStr(n) {
   if (n === null || n === undefined || isNaN(n)) return '–';
   const val = (n * 100).toFixed(1);
-  return withSign && n > 0 ? `+${val}%` : `${val}%`;
+  return n > 0 ? `+${val}%` : `${val}%`;
 }
 
 function marginLabel(margin) {
@@ -22,9 +27,13 @@ function marginLabel(margin) {
 
 function swingLabel(swing) {
   if (swing === null || swing === undefined || isNaN(swing)) return '–';
-  const abs = Math.abs(swing * 100).toFixed(1);
   if (Math.abs(swing) < 0.001) return 'No change';
+  const abs = Math.abs(swing * 100).toFixed(1);
   return swing > 0 ? `+${abs}% → FHFam` : `–${abs}% → FHFwd`;
+}
+
+function marginColor(v) {
+  return v > 0 ? C_FAM : v < 0 ? C_FWD : '#374151';
 }
 
 function avgSwingPerPrecinct(currentMargins, compMargins) {
@@ -58,20 +67,20 @@ export default function Dashboard({
 
   const currentMargins = buildMarginMap(currentYearData, slates); // {} for 2022
 
-  // Compute swings for the sidebar swing rows
+  // Compute swings for the sidebar
   const swings = {};
   for (const y of [2022, 2023, 2024, 2025]) {
     if (String(y) === year || !electionData[y]) continue;
-    if (y === 2022 || is2022Display) {
-      // Aggregate-only swing for any comparison involving 2022
+    if (y === 2022) {
+      // 2022 always uses aggregate-to-aggregate comparison
       const comp2022Margin = computeAggregateMarginFromTotals(electionData[2022], slates);
-      const otherMargin = is2022Display
-        ? computeAggregateMarginFromTotals(electionData[y], slates)
-        : agg?.margin ?? null;
-      const ref = is2022Display ? otherMargin : comp2022Margin;
-      const cur = is2022Display ? (agg?.margin ?? null) : (agg?.margin ?? null);
-      if (y === 2022 && !is2022Display && comp2022Margin !== null && agg?.margin !== null) {
+      if (!is2022Display && comp2022Margin !== null && agg?.margin !== null) {
         swings[2022] = agg.margin - comp2022Margin;
+      }
+    } else if (is2022Display) {
+      const compMargin = computeAggregateMarginFromTotals(electionData[y], slates);
+      if (compMargin !== null && agg?.margin !== null) {
+        swings[y] = agg.margin - compMargin;
       }
     } else {
       const compMargins = buildMarginMap(electionData[y], slates);
@@ -80,8 +89,7 @@ export default function Dashboard({
     }
   }
 
-  // Add 2022 aggregate swing when displayed year is not 2022 and comp is not 2022 (already covered above)
-  // Ensure 2022 swing is always computed for sidebar when current year is not 2022
+  // Ensure 2022 aggregate swing always computed when viewing non-2022 year
   if (!is2022Display && electionData[2022]) {
     const comp2022Margin = computeAggregateMarginFromTotals(electionData[2022], slates);
     if (comp2022Margin !== null && agg?.margin !== null) {
@@ -91,10 +99,8 @@ export default function Dashboard({
 
   const availableYears = [2022, 2023, 2024, 2025, ...(currentYearData.live ? [2026] : [])];
   const compYears = availableYears.filter(y => y !== displayYear);
-
-  const selectedCompSwing = compYear === 2022
-    ? (swings[2022] ?? null)
-    : swings[compYear] ?? null;
+  const selectedCompSwing = swings[compYear] ?? null;
+  const has2022Comparison = Object.keys(swings).includes('2022') || String(compYear) === '2022';
 
   return (
     <div className="dashboard">
@@ -156,12 +162,12 @@ export default function Dashboard({
         <Stat
           label="Overall Margin"
           value={marginLabel(agg?.margin)}
-          color={agg?.margin > 0 ? '#b91c1c' : agg?.margin < 0 ? '#1d4ed8' : '#374151'}
+          color={marginColor(agg?.margin)}
         />
         <Stat
           label={`Swing vs ${compYear}${compYear === 2022 ? '*' : ''}`}
           value={swingLabel(selectedCompSwing)}
-          color={selectedCompSwing > 0 ? '#b91c1c' : selectedCompSwing < 0 ? '#1d4ed8' : '#374151'}
+          color={marginColor(selectedCompSwing)}
         />
       </div>
 
@@ -176,12 +182,12 @@ export default function Dashboard({
               <span className="swing-bar-wrap">
                 <SwingBar value={swings[y]} />
               </span>
-              <span className="swing-val" style={{ color: swings[y] > 0 ? '#b91c1c' : '#1d4ed8' }}>
+              <span className="swing-val" style={{ color: marginColor(swings[y]) }}>
                 {pctStr(swings[y])}
               </span>
             </div>
           ))}
-        {Object.keys(swings).some(y => y === '2022' || String(compYear) === '2022') && (
+        {has2022Comparison && (
           <div className="note-2022">* 2022 swing is district-wide aggregate only — precincts were renumbered</div>
         )}
       </div>
@@ -190,9 +196,9 @@ export default function Dashboard({
       <div className="legend">
         <div className="legend-title">Color: who won (opacity = margin size)</div>
         <div className="legend-bar">
-          <span style={{ color: '#1d4ed8' }}>FH Forward</span>
+          <span style={{ color: C_FWD }}>FH Forward</span>
           <div className="gradient-bar" />
-          <span style={{ color: '#b91c1c' }}>FH Families</span>
+          <span style={{ color: C_FAM }}>FH Families</span>
         </div>
         <div className="legend-labels">
           <span>+20%+</span>
@@ -226,11 +232,15 @@ function SwingBar({ value }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: 110, justifyContent: 'center' }}>
       <div style={{ width: 55, display: 'flex', justifyContent: 'flex-end' }}>
-        {value < 0 && <div style={{ width, height: 10, background: '#2563eb', borderRadius: '2px 0 0 2px' }} />}
+        {value < 0 && (
+          <div style={{ width, height: 10, background: C_FWD, borderRadius: '2px 0 0 2px' }} />
+        )}
       </div>
       <div style={{ width: 1, height: 14, background: '#d1d5db' }} />
       <div style={{ width: 55, display: 'flex', justifyContent: 'flex-start' }}>
-        {value > 0 && <div style={{ width, height: 10, background: '#dc2626', borderRadius: '0 2px 2px 0' }} />}
+        {value > 0 && (
+          <div style={{ width, height: 10, background: C_FAM, borderRadius: '0 2px 2px 0' }} />
+        )}
       </div>
     </div>
   );

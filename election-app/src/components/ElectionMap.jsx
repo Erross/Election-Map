@@ -4,6 +4,22 @@ import { marginToColor } from '../utils/colorScale';
 import { buildMarginMap, buildTurnoutMap, FHSD_PRECINCTS } from '../utils/slateCalculator';
 import LabelLayer from './LabelLayer';
 
+/** Watches the map container for size changes and invalidates Leaflet's size.
+ *  Required so the map redraws correctly after responsive layout shifts. */
+function MapResizer() {
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+    const container = map.getContainer();
+    const obs = new ResizeObserver(() => {
+      map.invalidateSize({ animate: false });
+    });
+    obs.observe(container);
+    return () => obs.disconnect();
+  }, [map]);
+  return null;
+}
+
 export default function ElectionMap({
   geojson,
   currentYearData,
@@ -101,6 +117,7 @@ export default function ElectionMap({
 
   return (
     <>
+      <MapResizer />
       <GeoJSON
         key={`${currentYear}-${compYearData?.year}-${is2022}`}
         data={geojson}
