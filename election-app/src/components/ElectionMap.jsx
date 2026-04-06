@@ -30,7 +30,6 @@ export default function ElectionMap({
 }) {
   const map = useMap();
 
-  const is2022 = currentYearData?.year === 2022;
   const is2022Comp = compYearData?.year === 2022;
 
   const currentYear = String(currentYearData?.year);
@@ -62,10 +61,6 @@ export default function ElectionMap({
     if (!isFHSD) {
       return { fillColor: '#d1d5db', fillOpacity: 0.25, color: '#9ca3af', weight: 0.5 };
     }
-    // 2022: no per-precinct data — neutral gray fill for all FHSD precincts
-    if (is2022) {
-      return { fillColor: '#9ca3af', fillOpacity: 0.35, color: '#6b7280', weight: 1 };
-    }
     const margin = marginMap[pid];
     return {
       fillColor: marginToColor(margin),
@@ -82,7 +77,7 @@ export default function ElectionMap({
     layer.on({
       mouseover(e) {
         e.target.setStyle({ weight: 2.5, color: '#111827', fillOpacity: isFHSD ? 0.95 : 0.4 });
-        if (!isFHSD || is2022) return;
+        if (!isFHSD) return;
 
         const precinctRow = currentYearData?.precincts?.[pid];
         const compRow = compYearData?.precincts?.[pid];
@@ -119,23 +114,21 @@ export default function ElectionMap({
     <>
       <MapResizer />
       <GeoJSON
-        key={`${currentYear}-${compYearData?.year}-${is2022}`}
+        key={`${currentYear}-${compYearData?.year}`}
         data={geojson}
         style={styleFeature}
         onEachFeature={onEachFeature}
       />
-      {!is2022 && (
-        <LabelLayer
-          geojson={geojson}
-          overlayMode={overlayMode}
-          marginMap={marginMap}
-          compMarginMap={compMarginMap}
-          turnoutMap={turnoutMap}
-          compTurnoutMap={compTurnoutMap}
-          compYear={compYearData?.year}
-          is2022Comp={is2022Comp}
-        />
-      )}
+      <LabelLayer
+        geojson={geojson}
+        overlayMode={overlayMode}
+        marginMap={marginMap}
+        compMarginMap={compMarginMap}
+        turnoutMap={turnoutMap}
+        compTurnoutMap={compTurnoutMap}
+        compYear={compYearData?.year}
+        is2022Comp={is2022Comp}
+      />
     </>
   );
 }

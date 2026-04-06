@@ -39,7 +39,6 @@ export default function App() {
 
   const currentYearData = displayYear === 2026 ? liveData : electionData[displayYear];
   const compYearData = electionData[compYear];
-  const is2022 = displayYear === 2022;
 
   function handleYearChange(y) {
     setDisplayYear(y);
@@ -108,14 +107,6 @@ export default function App() {
             </>
           )}
         </MapContainer>
-
-        {/* 2022 map note */}
-        {is2022 && (
-          <div className="map-overlay-msg">
-            Per-precinct data unavailable — precincts were renumbered after 2022.
-            <br />Aggregate district totals shown in the sidebar.
-          </div>
-        )}
 
         {/* 2026 no-data prompt */}
         {displayYear === 2026 && !liveData && (

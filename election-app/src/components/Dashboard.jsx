@@ -2,7 +2,6 @@ import {
   computeAggregate,
   countReporting,
   buildMarginMap,
-  computeAggregateMarginFromTotals,
 } from '../utils/slateCalculator';
 import { COLOR_FAMILIES, COLOR_FORWARD } from '../utils/colorScale';
 
@@ -55,52 +54,27 @@ export default function Dashboard({
 }) {
   if (!currentYearData || !slates) return null;
 
-  const is2022Display = currentYearData.year === 2022;
   const year = String(currentYearData.year);
 
   const agg = computeAggregate(currentYearData, slates);
   const reporting = currentYearData.live
     ? `${currentYearData.reportingCount ?? '?'} of 38`
-    : is2022Display
-      ? 'N/A (old data)'
-      : `${countReporting(currentYearData)} of 38`;
+    : `${countReporting(currentYearData)} of 38`;
 
-  const currentMargins = buildMarginMap(currentYearData, slates); // {} for 2022
+  const currentMargins = buildMarginMap(currentYearData, slates);
 
   // Compute swings for the sidebar
   const swings = {};
   for (const y of [2022, 2023, 2024, 2025]) {
     if (String(y) === year || !electionData[y]) continue;
-    if (y === 2022) {
-      // 2022 always uses aggregate-to-aggregate comparison
-      const comp2022Margin = computeAggregateMarginFromTotals(electionData[2022], slates);
-      if (!is2022Display && comp2022Margin !== null && agg?.margin !== null) {
-        swings[2022] = agg.margin - comp2022Margin;
-      }
-    } else if (is2022Display) {
-      const compMargin = computeAggregateMarginFromTotals(electionData[y], slates);
-      if (compMargin !== null && agg?.margin !== null) {
-        swings[y] = agg.margin - compMargin;
-      }
-    } else {
-      const compMargins = buildMarginMap(electionData[y], slates);
-      const s = avgSwingPerPrecinct(currentMargins, compMargins);
-      if (s !== null) swings[y] = s;
-    }
-  }
-
-  // Ensure 2022 aggregate swing always computed when viewing non-2022 year
-  if (!is2022Display && electionData[2022]) {
-    const comp2022Margin = computeAggregateMarginFromTotals(electionData[2022], slates);
-    if (comp2022Margin !== null && agg?.margin !== null) {
-      swings[2022] = agg.margin - comp2022Margin;
-    }
+    const compMargins = buildMarginMap(electionData[y], slates);
+    const s = avgSwingPerPrecinct(currentMargins, compMargins);
+    if (s !== null) swings[y] = s;
   }
 
   const availableYears = [2022, 2023, 2024, 2025, ...(currentYearData.live ? [2026] : [])];
   const compYears = availableYears.filter(y => y !== displayYear);
   const selectedCompSwing = swings[compYear] ?? null;
-  const has2022Comparison = Object.keys(swings).includes('2022') || String(compYear) === '2022';
 
   return (
     <div className="dashboard">
@@ -150,7 +124,7 @@ export default function Dashboard({
         <label>Compare swing to:</label>
         <select value={compYear} onChange={e => onCompYearChange(Number(e.target.value))}>
           {compYears.map(y => (
-            <option key={y} value={y}>{y}{y === 2022 ? ' (agg. only)' : ''}</option>
+            <option key={y} value={y}>{y}</option>
           ))}
         </select>
       </div>
@@ -165,7 +139,7 @@ export default function Dashboard({
           color={marginColor(agg?.margin)}
         />
         <Stat
-          label={`Swing vs ${compYear}${compYear === 2022 ? '*' : ''}`}
+          label={`Swing vs ${compYear}`}
           value={swingLabel(selectedCompSwing)}
           color={marginColor(selectedCompSwing)}
         />
@@ -178,7 +152,7 @@ export default function Dashboard({
           .filter(y => String(y) !== year && swings[y] !== undefined)
           .map(y => (
             <div key={y} className="swing-row">
-              <span className="swing-year">vs {y}{y === 2022 ? '*' : ''}</span>
+              <span className="swing-year">vs {y}</span>
               <span className="swing-bar-wrap">
                 <SwingBar value={swings[y]} />
               </span>
@@ -187,9 +161,6 @@ export default function Dashboard({
               </span>
             </div>
           ))}
-        {has2022Comparison && (
-          <div className="note-2022">* 2022 swing is district-wide aggregate only — precincts were renumbered</div>
-        )}
       </div>
 
       {/* Legend */}
@@ -207,11 +178,6 @@ export default function Dashboard({
           <span>+10%</span>
           <span>+20%+</span>
         </div>
-        {is2022Display && (
-          <div className="note-2022" style={{ marginTop: 6 }}>
-            2022 per-precinct boundaries unavailable — precincts were renumbered after 2022
-          </div>
-        )}
       </div>
     </div>
   );

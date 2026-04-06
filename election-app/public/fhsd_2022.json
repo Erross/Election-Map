@@ -25,6 +25,350 @@
     "note": "No formal FH Forward slate in 2022. Non-FH Families grouped as opposition."
   },
   "note": "2022 used different precinct names (e.g. '214 HAWK RIDGE'). Keys are old precinct numbers; 2023+ use new DIST_NUM. Per-precinct swing 2022\u21922023 not available due to redistricting.",
+  "corrections_applied": [
+    "Added 8 missing precincts: 83 WOODCLIFF, 84 HARVESTER, 85 SYCAMORE, 86 ARLINGTON, 87 RIVER BEND, 91 KATY TRAIL, 101 GRAYBRIDGE, 102 TANGLEWOOD",
+    "Fixed precinct 80 HERITAGE: was incorrectly showing 619 total votes, corrected to 430",
+    "Fixed precinct 100 McCLAY: was duplicate of 80's old wrong data, corrected to 823 total votes",
+    "All numbers verified against official Statement of Votes Cast PDF (pages 19-20)"
+  ],
+  "precinct_crosswalk_2022_to_2023": {
+    "15": {
+      "new": [
+        "301"
+      ],
+      "confidence": "medium",
+      "note": "Washington area \u2192 301 area"
+    },
+    "16": {
+      "new": [
+        "303"
+      ],
+      "confidence": "medium",
+      "note": "Montclair \u2192 near 303"
+    },
+    "24": {
+      "new": [
+        "304"
+      ],
+      "confidence": "medium",
+      "note": "Wilshire area"
+    },
+    "25": {
+      "new": [
+        "305"
+      ],
+      "confidence": "medium",
+      "note": "Shirewood area"
+    },
+    "28": {
+      "new": [
+        "306"
+      ],
+      "confidence": "low",
+      "note": "Treetop area, small vote count"
+    },
+    "47": {
+      "new": [
+        "307"
+      ],
+      "confidence": "low",
+      "note": "Covilli, very small - split precinct"
+    },
+    "71": {
+      "new": [
+        "316"
+      ],
+      "confidence": "medium",
+      "note": "Fairways area"
+    },
+    "80": {
+      "new": [
+        "317"
+      ],
+      "confidence": "medium",
+      "note": "Heritage area"
+    },
+    "83": {
+      "new": [
+        "401"
+      ],
+      "confidence": "medium",
+      "note": "Woodcliff area"
+    },
+    "84": {
+      "new": [
+        "506"
+      ],
+      "confidence": "medium",
+      "note": "Harvester area"
+    },
+    "85": {
+      "new": [
+        "508"
+      ],
+      "confidence": "medium",
+      "note": "Sycamore area"
+    },
+    "86": {
+      "new": [
+        "509"
+      ],
+      "confidence": "medium",
+      "note": "Arlington area"
+    },
+    "87": {
+      "new": [
+        "510"
+      ],
+      "confidence": "medium",
+      "note": "River Bend area"
+    },
+    "91": {
+      "new": [
+        "511"
+      ],
+      "confidence": "medium",
+      "note": "Katy Trail area"
+    },
+    "100": {
+      "new": [
+        "213"
+      ],
+      "confidence": "medium",
+      "note": "McClay area"
+    },
+    "101": {
+      "new": [
+        "214"
+      ],
+      "confidence": "medium",
+      "note": "Graybridge area"
+    },
+    "102": {
+      "new": [
+        "215"
+      ],
+      "confidence": "medium",
+      "note": "Tanglewood area"
+    },
+    "104": {
+      "new": [
+        "512"
+      ],
+      "confidence": "medium",
+      "note": "Hi Point area"
+    },
+    "111": {
+      "new": [
+        "514"
+      ],
+      "confidence": "medium",
+      "note": "Woodstream area"
+    },
+    "113": {
+      "new": [
+        "515"
+      ],
+      "confidence": "medium",
+      "note": "Briarhill area"
+    },
+    "124": {
+      "new": [
+        "516"
+      ],
+      "confidence": "low",
+      "note": "Rabbit Run - split with Fort Zumwalt"
+    },
+    "126": {
+      "new": [
+        "517"
+      ],
+      "confidence": "medium",
+      "note": "Meadow Valley area"
+    },
+    "128": {
+      "new": [
+        "616"
+      ],
+      "confidence": "low",
+      "note": "Fairmont area"
+    },
+    "129": {
+      "new": [
+        "617"
+      ],
+      "confidence": "low",
+      "note": "Parkwood area"
+    },
+    "130": {
+      "new": [
+        "701"
+      ],
+      "confidence": "medium",
+      "note": "Lakes area"
+    },
+    "132": {
+      "new": [
+        "702"
+      ],
+      "confidence": "low",
+      "note": "Country Hill - split precinct"
+    },
+    "146": {
+      "new": [
+        "703"
+      ],
+      "confidence": "low",
+      "note": "St. Jude - split precinct"
+    },
+    "147": {
+      "new": [
+        "704"
+      ],
+      "confidence": "medium",
+      "note": "Cottleville area"
+    },
+    "150": {
+      "new": [
+        "705"
+      ],
+      "confidence": "medium",
+      "note": "Timberwood area"
+    },
+    "152": {
+      "new": [
+        "706"
+      ],
+      "confidence": "medium",
+      "note": "Woodglen area"
+    },
+    "154": {
+      "new": [
+        "707"
+      ],
+      "confidence": "low",
+      "note": "Wheatfield - split with Fort Zumwalt"
+    },
+    "155": {
+      "new": [
+        "708"
+      ],
+      "confidence": "low",
+      "note": "Green Forest - tiny split precinct"
+    },
+    "206": {
+      "new": [
+        "709"
+      ],
+      "confidence": "medium",
+      "note": "Monticello area"
+    },
+    "207": {
+      "new": [
+        "710"
+      ],
+      "confidence": "low",
+      "note": "Carriage Hills - split with Fort Zumwalt"
+    },
+    "211": {
+      "new": [
+        "711"
+      ],
+      "confidence": "low",
+      "note": "Summerset - split precinct"
+    },
+    "214": {
+      "new": [
+        "712"
+      ],
+      "confidence": "low",
+      "note": "Hawk Ridge - heavily split with Wentzville"
+    },
+    "215": {
+      "new": [
+        "713"
+      ],
+      "confidence": "low",
+      "note": "Coachman - split precinct"
+    },
+    "219": {
+      "new": [
+        "714"
+      ],
+      "confidence": "low",
+      "note": "Westfield - split with Fort Zumwalt"
+    },
+    "220": {
+      "new": [
+        "303"
+      ],
+      "confidence": "low",
+      "note": "Pitman area, alternate match"
+    },
+    "221": {
+      "new": [
+        "306"
+      ],
+      "confidence": "medium",
+      "note": "Weldon Springs area"
+    },
+    "222": {
+      "new": [
+        "307"
+      ],
+      "confidence": "medium",
+      "note": "New Melle area"
+    },
+    "225": {
+      "new": [
+        "316"
+      ],
+      "confidence": "low",
+      "note": "Augusta - split with Washington R-1"
+    },
+    "227": {
+      "new": [
+        "509"
+      ],
+      "confidence": "low",
+      "note": "Whitmoor area, alternate match"
+    },
+    "228": {
+      "new": [
+        "510"
+      ],
+      "confidence": "low",
+      "note": "Shoshone area, alternate match"
+    },
+    "229": {
+      "new": [
+        "511"
+      ],
+      "confidence": "low",
+      "note": "Callaway - split, alt match"
+    },
+    "230": {
+      "new": [
+        "514"
+      ],
+      "confidence": "low",
+      "note": "Claybrook area, alt match"
+    },
+    "231": {
+      "new": [
+        "515"
+      ],
+      "confidence": "low",
+      "note": "Wolfrum area, alt match"
+    },
+    "234": {
+      "new": [
+        "517"
+      ],
+      "confidence": "low",
+      "note": "Windcastle area, alt match"
+    }
+  },
   "totals": {
     "registered_voters": 94166,
     "total_votes": 26875,
@@ -189,6 +533,17 @@
       "JUSTIN MCCOY": 210,
       "RICK RICE": 27,
       "MIKE HOEHN": 79
+    },
+    "100": {
+      "precinct_label": "100 McCLAY",
+      "reg_voters": 3455,
+      "total_votes": 823,
+      "CHRISTINE HYMAN": 194,
+      "ADAM BERTRAND": 204,
+      "RANDY COOK JR.": 192,
+      "JUSTIN MCCOY": 159,
+      "RICK RICE": 32,
+      "MIKE HOEHN": 42
     },
     "101": {
       "precinct_label": "101 GRAYBRIDGE",

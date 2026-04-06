@@ -47,11 +47,8 @@ export function computeMargin(precinctRow, slateConfig) {
 
 /**
  * Build a { precinctId -> margin } map for a given year's data + slates config.
- * Returns {} for 2022 — precincts were renumbered after 2022, no geographic match.
  */
 export function buildMarginMap(yearData, slatesConfig) {
-  if (yearData.year === 2022) return {}; // no per-precinct geo match for 2022
-
   const year = String(yearData.year);
   const slateYear = slatesConfig.slates[year];
   if (!slateYear) return {};
@@ -67,10 +64,8 @@ export function buildMarginMap(yearData, slatesConfig) {
 
 /**
  * Build a { precinctId -> turnout } map (total_votes / reg_voters).
- * Returns {} for 2022.
  */
 export function buildTurnoutMap(yearData) {
-  if (yearData.year === 2022) return {};
   const result = {};
   for (const [pid, row] of Object.entries(yearData.precincts ?? {})) {
     if (!FHSD_PRECINCTS.has(pid)) continue;

@@ -12,7 +12,8 @@
       "Bash(curl -s http://localhost:5173)",
       "Bash(grep -l \"crosswalk\" \"c:/Election Map/fhsd-election-map/data/\"*)",
       "Bash(grep -l \"crosswalk\" \"c:/Election Map/election-app/public/\"*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(python.exe -c ':*)"
     ]
   }
 }
