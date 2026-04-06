@@ -14,6 +14,19 @@ const DEFAULT_YEAR = 2025;
 const DEFAULT_COMP_YEAR = 2024;
 const CENTER = [38.755, -90.68];
 
+// 7:00 PM CDT = 23:00 UTC on April 7 2026 (CDT = UTC-4)
+const POLLS_CLOSE_UTC = new Date('2026-04-07T23:00:00Z');
+const TOTAL_PRECINCTS = 38;
+const BASE_MS   = 5 * 60 * 1000; // 5 minutes between polls normally
+const BURST_MS  = 30 * 1000;     // 30 seconds after a new result
+const BURST_DUR = 5 * 60 * 1000; // burst window resets to 5 min on each new result
+
+function getPhase(now, reportingCount) {
+  if (now < POLLS_CLOSE_UTC) return 'pre';
+  if (reportingCount >= TOTAL_PRECINCTS) return 'complete';
+  return 'active';
+}
+
 function minsAgo(date, now) {
   const diff = Math.floor((now - date) / 60000);
   if (diff < 1) return 'just now';
@@ -33,12 +46,21 @@ export default function App() {
   const [showPaster, setShowPaster] = useState(false);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
-  const [fetchError, setFetchError] = useState(null);
   const [newDataAt, setNewDataAt] = useState(null);
   const [now, setNow] = useState(() => new Date());
 
   const lastViewed2026 = useRef(null);
+  // Refs so polling closures always read current values without stale captures
+  const liveDataRef  = useRef(null);
+  const burstUntilRef = useRef(0);
 
+  // Clock — always ticking so phase transitions and "X mins ago" update
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Initial data load
   useEffect(() => {
     loadAll()
       .then(setAppData)
@@ -46,35 +68,55 @@ export default function App() {
       .finally(() => setLoading(false));
   }, []);
 
+  // One-time fetch on every page load once appData is ready — ensures
+  // the displayed data is current even after results are complete
+  useEffect(() => {
+    if (!appData) return;
+    fetchLiveResults().then(result => {
+      if (result && !result.unchanged && result.precincts) {
+        liveDataRef.current = result;
+        setLiveData(result);
+        setNewDataAt(new Date());
+      }
+    }).catch(() => {});
+  }, [appData]);
+
+  // Smart polling — recursive setTimeout, phase-aware
   useEffect(() => {
     if (!autoRefresh) return;
     let cancelled = false;
 
     async function poll() {
+      if (cancelled) return;
+
+      const phase = getPhase(new Date(), liveDataRef.current?.reportingCount ?? 0);
+      if (phase === 'pre' || phase === 'complete') return; // stop scheduling
+
       try {
         const result = await fetchLiveResults();
         if (cancelled) return;
 
-        if (result && result.unchanged) return; // nothing changed
-
-        if (result && result.precincts) {
+        if (result && !result.unchanged && result.precincts) {
+          burstUntilRef.current = Date.now() + BURST_DUR; // reset burst window
+          liveDataRef.current = result;
           setLiveData(prev => {
-            if (!prev) setDisplayYear(2026); // first result — auto-switch
+            if (!prev) setDisplayYear(2026);
             return result;
           });
           setNewDataAt(new Date());
-          setFetchError(null);
         }
-      } catch (err) {
-        if (!cancelled) setFetchError(err.message);
+      } catch (_) {
+        // Silently swallow — status line shows last-new-data time instead of errors
       }
+
+      if (cancelled) return;
+      const delay = Date.now() < burstUntilRef.current ? BURST_MS : BASE_MS;
+      setTimeout(poll, delay);
     }
 
+    // Immediate poll on enable, then recursive chain
     poll();
-    const pollInterval = setInterval(poll, 30000);
-    // Tick the clock every 30s so "X minutes ago" stays accurate
-    const clockInterval = setInterval(() => setNow(new Date()), 30000);
-    return () => { cancelled = true; clearInterval(pollInterval); clearInterval(clockInterval); };
+    return () => { cancelled = true; };
   }, [autoRefresh]);
 
   if (loading) return <div className="loading">Loading election data…</div>;
@@ -84,6 +126,7 @@ export default function App() {
 
   const currentYearData = displayYear === 2026 ? liveData : electionData[displayYear];
   const compYearData = electionData[compYear];
+  const phase = getPhase(now, liveData?.reportingCount ?? 0);
 
   function handleYearChange(y) {
     setDisplayYear(y);
@@ -95,6 +138,7 @@ export default function App() {
   }
 
   function handleLiveResults(parsed) {
+    liveDataRef.current = parsed;
     setLiveData(parsed);
     setDisplayYear(2026);
     setNewDataAt(new Date());
@@ -103,6 +147,20 @@ export default function App() {
   const show2026Badge = displayYear !== 2026
     && newDataAt
     && (!lastViewed2026.current || newDataAt > lastViewed2026.current);
+
+  function statusText() {
+    if (phase === 'pre') return 'Polls open until 7:00 PM CT';
+    if (phase === 'complete') return `All ${TOTAL_PRECINCTS} precincts reported — polling stopped`;
+    if (!newDataAt) return 'Polling started — waiting for first results…';
+    return `Last new data: ${minsAgo(newDataAt, now)} at ${newDataAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  }
+
+  function autoRefreshLabel() {
+    if (!autoRefresh) return 'Start Auto-Refresh';
+    if (phase === 'pre') return 'Monitoring — polls close 7pm CT';
+    if (phase === 'complete') return 'Monitoring — results complete';
+    return 'Auto-Refresh ON';
+  }
 
   return (
     <div className="app-layout">
@@ -134,17 +192,13 @@ export default function App() {
 
           <button
             className={`btn-primary full-width${autoRefresh ? ' btn-active' : ''}`}
-            onClick={() => { setAutoRefresh(p => !p); setFetchError(null); }}
+            onClick={() => setAutoRefresh(p => !p)}
           >
-            {autoRefresh ? 'Auto-Refresh ON (30s)' : 'Start Auto-Refresh'}
+            {autoRefreshLabel()}
           </button>
 
           {autoRefresh && (
-            <div className="fetch-status waiting">
-              {newDataAt
-                ? `Last new data: ${minsAgo(newDataAt, now)} at ${newDataAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-                : 'Waiting for first results…'}
-            </div>
+            <div className="fetch-status waiting">{statusText()}</div>
           )}
 
           <button className="btn-secondary full-width" onClick={() => setShowPaster(true)}>
