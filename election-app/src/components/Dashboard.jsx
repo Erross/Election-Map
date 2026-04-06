@@ -74,7 +74,8 @@ export default function Dashboard({
   }
 
   const availableYears = [2022, 2023, 2024, 2025, 2026];
-  const compYears = availableYears.filter(y => y !== displayYear);
+  // 2026 has no historical data in electionData so can't be used as a comparison year
+  const compYears = availableYears.filter(y => y !== displayYear && y !== 2026);
   const selectedCompSwing = swings[compYear] ?? null;
 
   return (

@@ -54,7 +54,6 @@ function parsePrecinct(tbodyHtml) {
     if (!name || isNaN(votes)) continue;
 
     entry.total_votes += votes;
-    // Normalize to match historic data keys
     const key = name.toUpperCase() === 'WRITE-IN' ? 'WRITE IN' : name;
     entry[key] = votes;
   }
@@ -62,21 +61,21 @@ function parsePrecinct(tbodyHtml) {
   return entry;
 }
 
-function parseResults(html) {
-  // Grab the timestamp from <span id="lblLastPublishedDateTime">
-  const tsMatch = html.match(/lblLastPublishedDateTime[^>]*>([^<]+)/i);
-  const sourceUpdated = tsMatch ? tsMatch[1].trim() : null;
-
-  // Each Francis Howell precinct section starts with an anchor whose text contains:
-  //   "Precinct: 213 - Contest: FRANCIS HOWELL R-III SCHOOL BOARD MEMBER"
-  // The content div immediately follows the anchor.
-  const sectionRe = /Precinct:\s*([\w\s]+?)\s*-\s*Contest:\s*FRANCIS HOWELL R-III SCHOOL BOARD MEMBER/gi;
+/**
+ * Generic section parser. Finds all "Precinct: X - Contest: <contestPattern>" sections
+ * in the HTML and returns { pid -> parsedPrecinct }.
+ * Deduplicates the doubled anchors the page emits for each section.
+ */
+function parseContest(html, contestPattern) {
+  const sectionRe = new RegExp(
+    `Precinct:\\s*([\\w\\s]+?)\\s*-\\s*Contest:\\s*${contestPattern}`,
+    'gi'
+  );
 
   const sections = [];
   let m;
   while ((m = sectionRe.exec(html)) !== null) {
     const pid = m[1].trim();
-    // Skip duplicate anchor entries (the page has two anchors per section)
     if (!sections.length || sections[sections.length - 1].pid !== pid) {
       sections.push({ pid, pos: m.index });
     }
@@ -85,27 +84,34 @@ function parseResults(html) {
   if (!sections.length) return null;
 
   const precincts = {};
-
   for (let i = 0; i < sections.length; i++) {
     const { pid, pos } = sections[i];
     const endPos = i + 1 < sections.length ? sections[i + 1].pos : html.length;
     const chunk = html.slice(pos, endPos);
 
-    // Determine the output key
-    const upperPid = pid.toUpperCase();
-    let key;
-    if (FHSD_PRECINCTS.has(pid)) key = pid;
-    else if (SPECIAL_KEYS[upperPid]) key = SPECIAL_KEYS[upperPid];
-    else continue;
-
-    // Find the <tbody> in this chunk
     const tbodyMatch = chunk.match(/<tbody>([\s\S]*?)<\/tbody>/i);
     if (!tbodyMatch) continue;
 
-    precincts[key] = parsePrecinct(tbodyMatch[1]);
+    // For FHSD: restrict to known precincts. For others: accept all.
+    precincts[pid] = parsePrecinct(tbodyMatch[1]);
   }
 
-  return { precincts, sourceUpdated };
+  return Object.keys(precincts).length ? precincts : null;
+}
+
+function computeHash(input) {
+  let hash = 2166136261;
+  for (let i = 0; i < input.length; i++) {
+    hash ^= input.charCodeAt(i);
+    hash = Math.imul(hash, 16777619) >>> 0;
+  }
+  return hash.toString(36);
+}
+
+function precinctHashString(precincts) {
+  return Object.keys(precincts).sort().map(p =>
+    `${p}:${precincts[p].total_votes}`
+  ).join('|');
 }
 
 function corsHeaders(origin) {
@@ -114,18 +120,6 @@ function corsHeaders(origin) {
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
-}
-
-function computeHash(precincts) {
-  const input = Object.keys(precincts).sort().map(p =>
-    `${p}:${precincts[p].total_votes}`
-  ).join('|');
-  let hash = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    hash ^= input.charCodeAt(i);
-    hash = Math.imul(hash, 16777619) >>> 0;
-  }
-  return hash.toString(36);
 }
 
 function jsonResponse(body, status, origin, extraHeaders = {}) {
@@ -165,13 +159,18 @@ export default {
       );
     }
 
-    const parsed = parseResults(html);
+    // Timestamp
+    const tsMatch = html.match(/lblLastPublishedDateTime[^>]*>([^<]+)/i);
+    const sourceUpdated = tsMatch ? tsMatch[1].trim() : null;
 
-    if (!parsed || !Object.keys(parsed.precincts).length) {
+    // ── FHSD school board ────────────────────────────────────────────
+    const fhsdRaw = parseContest(html, 'FRANCIS HOWELL R-III SCHOOL BOARD MEMBER');
+
+    if (!fhsdRaw) {
       return jsonResponse(
         {
           error: 'Results not available yet',
-          detail: 'The FRANCIS HOWELL race was not found on the results page. The page may not be live yet.',
+          detail: 'The FRANCIS HOWELL race was not found on the results page.',
           parsedAt,
         },
         503,
@@ -179,34 +178,49 @@ export default {
       );
     }
 
-    const mapPrecincts = {};
-    const nonMapPrecincts = {};
-    for (const [k, v] of Object.entries(parsed.precincts)) {
-      if (FHSD_PRECINCTS.has(k)) mapPrecincts[k] = v;
-      else nonMapPrecincts[k] = v;
+    const fhsdMap = {};
+    const fhsdNonMap = {};
+    for (const [k, v] of Object.entries(fhsdRaw)) {
+      if (FHSD_PRECINCTS.has(k)) fhsdMap[k] = v;
+      else if (SPECIAL_KEYS[k.toUpperCase()]) fhsdNonMap[SPECIAL_KEYS[k.toUpperCase()]] = v;
+    }
+    const fhsdReporting = Object.values(fhsdMap).filter(v => v.total_votes > 0).length;
+
+    // ── Proposition RT ───────────────────────────────────────────────
+    const propRTRaw = parseContest(html, 'PROPOSITION RT');
+    let propRT = null;
+    if (propRTRaw) {
+      const propRTReporting = Object.values(propRTRaw).filter(v => v.total_votes > 0).length;
+      propRT = {
+        race: 'PROPOSITION RT',
+        precincts: propRTRaw,
+        reportingCount: propRTReporting,
+        totalPrecincts: 116,
+      };
     }
 
-    const reportingCount = Object.values(mapPrecincts).filter(v => v.total_votes > 0).length;
-    const dataHash = computeHash(mapPrecincts);
+    // ── ETag / 304 ───────────────────────────────────────────────────
+    const hashInput = precinctHashString(fhsdMap)
+      + (propRT ? '||' + precinctHashString(propRT.precincts) : '');
+    const dataHash = computeHash(hashInput);
 
-    // 304 Not Modified if client already has this data
     const clientETag = request.headers.get('If-None-Match');
     if (clientETag === dataHash) {
       return new Response(null, { status: 304, headers: corsHeaders(origin) });
     }
 
     return jsonResponse({
-      year: 2026,
-      race: 'FRANCIS HOWELL R-III SCHOOL BOARD MEMBER',
-      election_date: '2026-04-07',
-      live: true,
-      precincts: mapPrecincts,
-      non_map_precincts: nonMapPrecincts,
-      reportingCount,
-      totalPrecincts: 38,
-      parsedAt,
-      sourceUpdated: parsed.sourceUpdated,
+      fhsd: {
+        race: 'FRANCIS HOWELL R-III SCHOOL BOARD MEMBER',
+        precincts: fhsdMap,
+        non_map_precincts: fhsdNonMap,
+        reportingCount: fhsdReporting,
+        totalPrecincts: 38,
+      },
+      propRT,
       dataHash,
+      parsedAt,
+      sourceUpdated,
     }, 200, origin, { ETag: dataHash });
   },
 };

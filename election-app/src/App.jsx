@@ -6,6 +6,7 @@ import './App.css';
 import ElectionMap from './components/ElectionMap';
 import PrecinctTooltip from './components/PrecinctTooltip';
 import Dashboard from './components/Dashboard';
+import PropRTMap from './components/PropRTMap';
 import ResultsPaster from './components/ResultsPaster';
 import { loadAll } from './utils/dataLoader';
 import { fetchLiveResults } from './utils/liveFetcher';
@@ -17,9 +18,9 @@ const CENTER = [38.755, -90.68];
 // 7:00 PM CDT = 23:00 UTC on April 7 2026 (CDT = UTC-4)
 const POLLS_CLOSE_UTC = new Date('2026-04-07T23:00:00Z');
 const TOTAL_PRECINCTS = 38;
-const BASE_MS   = 5 * 60 * 1000; // 5 minutes between polls normally
-const BURST_MS  = 30 * 1000;     // 30 seconds after a new result
-const BURST_DUR = 5 * 60 * 1000; // burst window resets to 5 min on each new result
+const BASE_MS   = 5 * 60 * 1000;
+const BURST_MS  = 30 * 1000;
+const BURST_DUR = 5 * 60 * 1000;
 
 function getPhase(now, reportingCount) {
   if (now < POLLS_CLOSE_UTC) return 'pre';
@@ -42,19 +43,20 @@ export default function App() {
   const [displayYear, setDisplayYear] = useState(DEFAULT_YEAR);
   const [compYear, setCompYear] = useState(DEFAULT_COMP_YEAR);
   const [overlayMode, setOverlayMode] = useState('swing');
+  // liveData holds the full Worker response: { fhsd, propRT, parsedAt, sourceUpdated, dataHash }
   const [liveData, setLiveData] = useState(null);
   const [showPaster, setShowPaster] = useState(false);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [newDataAt, setNewDataAt] = useState(null);
   const [now, setNow] = useState(() => new Date());
+  const [activeView, setActiveView] = useState('fhsd');
 
   const lastViewed2026 = useRef(null);
-  // Refs so polling closures always read current values without stale captures
-  const liveDataRef  = useRef(null);
+  const liveDataRef   = useRef(null);
   const burstUntilRef = useRef(0);
 
-  // Clock — always ticking so phase transitions and "X mins ago" update
+  // Clock tick — always on
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 30000);
     return () => clearInterval(t);
@@ -68,12 +70,11 @@ export default function App() {
       .finally(() => setLoading(false));
   }, []);
 
-  // One-time fetch on every page load once appData is ready — ensures
-  // the displayed data is current even after results are complete
+  // One-time fetch on every page load
   useEffect(() => {
     if (!appData) return;
     fetchLiveResults().then(result => {
-      if (result && !result.unchanged && result.precincts) {
+      if (result && !result.unchanged && result.fhsd) {
         liveDataRef.current = result;
         setLiveData(result);
         setNewDataAt(new Date());
@@ -88,16 +89,14 @@ export default function App() {
 
     async function poll() {
       if (cancelled) return;
-
-      const phase = getPhase(new Date(), liveDataRef.current?.reportingCount ?? 0);
-      if (phase === 'pre' || phase === 'complete') return; // stop scheduling
+      const phase = getPhase(new Date(), liveDataRef.current?.fhsd?.reportingCount ?? 0);
+      if (phase === 'pre' || phase === 'complete') return;
 
       try {
         const result = await fetchLiveResults();
         if (cancelled) return;
-
-        if (result && !result.unchanged && result.precincts) {
-          burstUntilRef.current = Date.now() + BURST_DUR; // reset burst window
+        if (result && !result.unchanged && result.fhsd) {
+          burstUntilRef.current = Date.now() + BURST_DUR;
           liveDataRef.current = result;
           setLiveData(prev => {
             if (!prev) setDisplayYear(2026);
@@ -106,7 +105,7 @@ export default function App() {
           setNewDataAt(new Date());
         }
       } catch (_) {
-        // Silently swallow — status line shows last-new-data time instead of errors
+        // Silently swallow — status line shows last-new-data time
       }
 
       if (cancelled) return;
@@ -114,7 +113,6 @@ export default function App() {
       setTimeout(poll, delay);
     }
 
-    // Immediate poll on enable, then recursive chain
     poll();
     return () => { cancelled = true; };
   }, [autoRefresh]);
@@ -124,9 +122,20 @@ export default function App() {
 
   const { geojson, slates, electionData } = appData;
 
-  const currentYearData = displayYear === 2026 ? liveData : electionData[displayYear];
+  // Derived live data for each contest
+  const fhsdLiveData = liveData?.fhsd ? {
+    ...liveData.fhsd,
+    year: 2026,
+    election_date: '2026-04-07',
+    live: true,
+    parsedAt: liveData.parsedAt,
+  } : null;
+
+  const propRTData = liveData?.propRT ?? null;
+
+  const currentYearData = displayYear === 2026 ? fhsdLiveData : electionData[displayYear];
   const compYearData = electionData[compYear];
-  const phase = getPhase(now, liveData?.reportingCount ?? 0);
+  const phase = getPhase(now, liveData?.fhsd?.reportingCount ?? 0);
 
   function handleYearChange(y) {
     setDisplayYear(y);
@@ -137,9 +146,23 @@ export default function App() {
     }
   }
 
+  // Paste fallback — wrap FHSD-only result into the full liveData shape
   function handleLiveResults(parsed) {
-    liveDataRef.current = parsed;
-    setLiveData(parsed);
+    const wrapped = {
+      fhsd: {
+        race: parsed.race,
+        precincts: parsed.precincts,
+        non_map_precincts: parsed.non_map_precincts ?? {},
+        reportingCount: parsed.reportingCount,
+        totalPrecincts: 38,
+      },
+      propRT: liveData?.propRT ?? null,
+      parsedAt: parsed.parsedAt || new Date().toISOString(),
+      sourceUpdated: liveData?.sourceUpdated ?? null,
+      dataHash: null,
+    };
+    liveDataRef.current = wrapped;
+    setLiveData(wrapped);
     setDisplayYear(2026);
     setNewDataAt(new Date());
   }
@@ -162,90 +185,128 @@ export default function App() {
     return 'Auto-Refresh ON';
   }
 
-  return (
-    <div className="app-layout">
-      <aside className="sidebar">
-        {show2026Badge && (
-          <div className="new-data-bar" onClick={() => handleYearChange(2026)}>
-            New results available — click to view 2026
-          </div>
-        )}
+  const liveSection = (
+    <div className="live-section">
+      <div className="live-header">
+        <span className={`live-dot${displayYear === 2026 && fhsdLiveData ? ' active' : ''}`} />
+        Election Night 2026 (Apr 7)
+      </div>
 
-        <Dashboard
-          currentYearData={currentYearData}
-          electionData={electionData}
-          slates={slates}
-          onYearChange={handleYearChange}
-          onCompYearChange={setCompYear}
-          onOverlayModeChange={setOverlayMode}
-          compYear={compYear}
-          displayYear={displayYear}
-          overlayMode={overlayMode}
-          show2026Badge={show2026Badge}
-        />
+      <button
+        className={`btn-primary full-width${autoRefresh ? ' btn-active' : ''}`}
+        onClick={() => setAutoRefresh(p => !p)}
+      >
+        {autoRefreshLabel()}
+      </button>
 
-        <div className="live-section">
-          <div className="live-header">
-            <span className={`live-dot${displayYear === 2026 && liveData ? ' active' : ''}`} />
-            Election Night 2026 (Apr 7)
-          </div>
+      {autoRefresh && (
+        <div className="fetch-status waiting">{statusText()}</div>
+      )}
 
-          <button
-            className={`btn-primary full-width${autoRefresh ? ' btn-active' : ''}`}
-            onClick={() => setAutoRefresh(p => !p)}
-          >
-            {autoRefreshLabel()}
-          </button>
+      <button className="btn-secondary full-width" onClick={() => setShowPaster(true)}>
+        {fhsdLiveData
+          ? `Manual Update (${liveData?.fhsd?.reportingCount ?? '?'}/38)`
+          : 'Paste Results Manually'}
+      </button>
 
-          {autoRefresh && (
-            <div className="fetch-status waiting">{statusText()}</div>
-          )}
-
-          <button className="btn-secondary full-width" onClick={() => setShowPaster(true)}>
-            {liveData
-              ? `Manual Update (${liveData.reportingCount ?? '?'}/38)`
-              : 'Paste Results Manually'}
-          </button>
-
-          {liveData && (
-            <div className="live-timestamp">
-              Last updated: {new Date(liveData.parsedAt).toLocaleTimeString()}
-              {liveData.sourceUpdated && (
-                <div className="source-timestamp">Source: {liveData.sourceUpdated}</div>
-              )}
-            </div>
+      {liveData && (
+        <div className="live-timestamp">
+          Last updated: {new Date(liveData.parsedAt).toLocaleTimeString()}
+          {liveData.sourceUpdated && (
+            <div className="source-timestamp">Source: {liveData.sourceUpdated}</div>
           )}
         </div>
-      </aside>
+      )}
+    </div>
+  );
 
-      <main className="map-wrap">
-        <MapContainer center={CENTER} zoom={11} style={{ width: '100%', height: '100%' }} zoomControl>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            opacity={0.4}
-          />
-          {geojson && currentYearData && (
-            <>
-              <ElectionMap
-                geojson={geojson}
+  return (
+    <div className="root-layout">
+      <nav className="view-nav">
+        <button
+          className={activeView === 'fhsd' ? 'active' : ''}
+          onClick={() => setActiveView('fhsd')}
+        >
+          FHSD School Board
+        </button>
+        <button
+          className={activeView === 'propRT' ? 'active' : ''}
+          onClick={() => setActiveView('propRT')}
+        >
+          Proposition RT
+        </button>
+      </nav>
+
+      <div className="view-content">
+        {activeView === 'fhsd' && (
+          <div className="app-layout">
+            <aside className="sidebar">
+              {show2026Badge && (
+                <div className="new-data-bar" onClick={() => handleYearChange(2026)}>
+                  New results available — click to view 2026
+                </div>
+              )}
+
+              <Dashboard
                 currentYearData={currentYearData}
-                compYearData={compYearData}
+                electionData={electionData}
                 slates={slates}
-                onHover={setHoverInfo}
+                onYearChange={handleYearChange}
+                onCompYearChange={setCompYear}
+                onOverlayModeChange={setOverlayMode}
+                compYear={compYear}
+                displayYear={displayYear}
                 overlayMode={overlayMode}
+                show2026Badge={show2026Badge}
               />
-              <PrecinctTooltip hoverInfo={hoverInfo} />
-            </>
-          )}
-        </MapContainer>
 
-        {displayYear === 2026 && !liveData && (
-          <div className="map-overlay-msg">
-            Click "Start Auto-Refresh" or "Paste Results Manually" to load 2026 data.
+              {liveSection}
+            </aside>
+
+            <main className="map-wrap">
+              <MapContainer center={CENTER} zoom={11} style={{ width: '100%', height: '100%' }} zoomControl>
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  opacity={0.4}
+                />
+                {geojson && currentYearData && (
+                  <>
+                    <ElectionMap
+                      geojson={geojson}
+                      currentYearData={currentYearData}
+                      compYearData={compYearData}
+                      slates={slates}
+                      onHover={setHoverInfo}
+                      overlayMode={overlayMode}
+                    />
+                    <PrecinctTooltip hoverInfo={hoverInfo} />
+                  </>
+                )}
+              </MapContainer>
+
+              {displayYear === 2026 && !fhsdLiveData && (
+                <div className="map-overlay-msg">
+                  Click "Start Auto-Refresh" or "Paste Results Manually" to load 2026 data.
+                </div>
+              )}
+            </main>
           </div>
         )}
-      </main>
+
+        {activeView === 'propRT' && (
+          <PropRTMap
+            geojson={geojson}
+            propRTData={propRTData}
+            autoRefresh={autoRefresh}
+            onToggleAutoRefresh={() => setAutoRefresh(p => !p)}
+            autoRefreshLabel={autoRefreshLabel()}
+            statusText={statusText()}
+            liveTimestamp={liveData?.parsedAt}
+            sourceUpdated={liveData?.sourceUpdated}
+          />
+        )}
+      </div>
 
       {showPaster && (
         <ResultsPaster onResults={handleLiveResults} onClose={() => setShowPaster(false)} />
