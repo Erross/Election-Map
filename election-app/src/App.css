@@ -255,6 +255,58 @@ select {
   text-align: center;
 }
 
+.source-timestamp {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+/* ── New data indicator ────────────────────── */
+.new-data-badge {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: pulse-badge 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+.new-data-bar {
+  background: linear-gradient(90deg, #065f46, #047857);
+  color: white;
+  text-align: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+}
+.new-data-bar:hover {
+  background: linear-gradient(90deg, #047857, #059669);
+}
+
+.fetch-status {
+  font-size: 11px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.fetch-status.error {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+.fetch-status.waiting {
+  color: #6b7280;
+  font-style: italic;
+}
+
 /* ── Buttons ───────────────────────────────── */
 .btn-primary {
   padding: 7px 14px;
@@ -272,6 +324,18 @@ select {
 .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
 .btn-primary.full-width { width: 100%; }
 
+.btn-primary.btn-active {
+  background: #16a34a;
+  border-color: #16a34a;
+  animation: pulse-green 2s ease-in-out infinite;
+}
+.btn-primary.btn-active:hover { background: #15803d; }
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); }
+}
+
 .btn-secondary {
   padding: 7px 14px;
   background: white;
@@ -280,6 +344,7 @@ select {
   border-radius: 5px;
   font-size: 13px;
   cursor: pointer;
+  margin-top: 6px;
 }
 .btn-secondary:hover { background: #f9fafb; }
 

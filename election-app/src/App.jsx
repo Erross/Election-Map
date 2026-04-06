@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
@@ -8,6 +8,7 @@ import PrecinctTooltip from './components/PrecinctTooltip';
 import Dashboard from './components/Dashboard';
 import ResultsPaster from './components/ResultsPaster';
 import { loadAll } from './utils/dataLoader';
+import { fetchLiveResults } from './utils/liveFetcher';
 
 const DEFAULT_YEAR = 2025;
 const DEFAULT_COMP_YEAR = 2024;
@@ -24,6 +25,11 @@ export default function App() {
   const [liveData, setLiveData] = useState(null);
   const [showPaster, setShowPaster] = useState(false);
   const [hoverInfo, setHoverInfo] = useState(null);
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+  const [newDataAt, setNewDataAt] = useState(null);
+
+  const lastViewed2026 = useRef(null);
 
   useEffect(() => {
     loadAll()
@@ -31,6 +37,35 @@ export default function App() {
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!autoRefresh) return;
+    let cancelled = false;
+
+    async function poll() {
+      try {
+        const result = await fetchLiveResults();
+        if (cancelled) return;
+
+        if (result && result.unchanged) return; // nothing changed
+
+        if (result && result.precincts) {
+          setLiveData(prev => {
+            if (!prev) setDisplayYear(2026); // first result — auto-switch
+            return result;
+          });
+          setNewDataAt(new Date());
+          setFetchError(null);
+        }
+      } catch (err) {
+        if (!cancelled) setFetchError(err.message);
+      }
+    }
+
+    poll();
+    const interval = setInterval(poll, 30000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [autoRefresh]);
 
   if (loading) return <div className="loading">Loading election data…</div>;
   if (error) return <div className="loading error">Error: {error}</div>;
@@ -42,6 +77,7 @@ export default function App() {
 
   function handleYearChange(y) {
     setDisplayYear(y);
+    if (y === 2026) lastViewed2026.current = new Date();
     if (compYear === y) {
       const fallback = [2025, 2024, 2023, 2022].find(yr => yr !== y);
       setCompYear(fallback);
@@ -51,11 +87,22 @@ export default function App() {
   function handleLiveResults(parsed) {
     setLiveData(parsed);
     setDisplayYear(2026);
+    setNewDataAt(new Date());
   }
+
+  const show2026Badge = displayYear !== 2026
+    && newDataAt
+    && (!lastViewed2026.current || newDataAt > lastViewed2026.current);
 
   return (
     <div className="app-layout">
       <aside className="sidebar">
+        {show2026Badge && (
+          <div className="new-data-bar" onClick={() => handleYearChange(2026)}>
+            New results available — click to view 2026
+          </div>
+        )}
+
         <Dashboard
           currentYearData={currentYearData}
           electionData={electionData}
@@ -66,6 +113,7 @@ export default function App() {
           compYear={compYear}
           displayYear={displayYear}
           overlayMode={overlayMode}
+          show2026Badge={show2026Badge}
         />
 
         <div className="live-section">
@@ -73,14 +121,33 @@ export default function App() {
             <span className={`live-dot${displayYear === 2026 && liveData ? ' active' : ''}`} />
             Election Night 2026 (Apr 7)
           </div>
-          <button className="btn-primary full-width" onClick={() => setShowPaster(true)}>
-            {liveData
-              ? `Update Results (${liveData.reportingCount}/38 precincts)`
-              : 'Paste Live Results'}
+
+          <button
+            className={`btn-primary full-width${autoRefresh ? ' btn-active' : ''}`}
+            onClick={() => { setAutoRefresh(p => !p); setFetchError(null); }}
+          >
+            {autoRefresh ? 'Auto-Refresh ON (30s)' : 'Start Auto-Refresh'}
           </button>
+
+          {autoRefresh && fetchError && (
+            <div className="fetch-status error">Error: {fetchError}</div>
+          )}
+          {autoRefresh && !fetchError && !liveData && (
+            <div className="fetch-status waiting">Waiting for results…</div>
+          )}
+
+          <button className="btn-secondary full-width" onClick={() => setShowPaster(true)}>
+            {liveData
+              ? `Manual Update (${liveData.reportingCount ?? '?'}/38)`
+              : 'Paste Results Manually'}
+          </button>
+
           {liveData && (
             <div className="live-timestamp">
               Last updated: {new Date(liveData.parsedAt).toLocaleTimeString()}
+              {liveData.sourceUpdated && (
+                <div className="source-timestamp">Source: {liveData.sourceUpdated}</div>
+              )}
             </div>
           )}
         </div>
@@ -108,10 +175,9 @@ export default function App() {
           )}
         </MapContainer>
 
-        {/* 2026 no-data prompt */}
         {displayYear === 2026 && !liveData && (
           <div className="map-overlay-msg">
-            Click "Paste Live Results" to load 2026 election night data.
+            Click "Start Auto-Refresh" or "Paste Results Manually" to load 2026 data.
           </div>
         )}
       </main>

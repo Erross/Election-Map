@@ -13,7 +13,14 @@
       "Bash(grep -l \"crosswalk\" \"c:/Election Map/fhsd-election-map/data/\"*)",
       "Bash(grep -l \"crosswalk\" \"c:/Election Map/election-app/public/\"*)",
       "Bash(xargs grep:*)",
-      "Bash(python.exe -c ':*)"
+      "Bash(python.exe -c ':*)",
+      "WebFetch(domain:www.livevoterturnout.com)",
+      "Bash(npm init:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(curl -s http://localhost:8787)",
+      "Bash(curl -s \"https://www.livevoterturnout.com/ENR/stcharlesmoenr/30/en/Index_30.html\")",
+      "Bash(node -e ':*)",
+      "Bash(pkill -f \"wrangler dev\")"
     ]
   }
 }

@@ -51,6 +51,7 @@ export default function Dashboard({
   compYear,
   displayYear,
   overlayMode,
+  show2026Badge,
 }) {
   if (!currentYearData || !slates) return null;
 
@@ -94,6 +95,7 @@ export default function Dashboard({
               onClick={() => onYearChange(y)}
             >
               {y}{y === 2026 ? ' (Live)' : ''}
+              {y === 2026 && show2026Badge && <span className="new-data-badge" />}
             </button>
           ))}
         </div>
