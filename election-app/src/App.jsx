@@ -120,7 +120,7 @@ export default function App() {
   if (loading) return <div className="loading">Loading election data…</div>;
   if (error) return <div className="loading error">Error: {error}</div>;
 
-  const { geojson, slates, electionData } = appData;
+  const { geojson, countyGeojson, slates, electionData } = appData;
 
   // Derived live data for each contest
   const fhsdLiveData = liveData?.fhsd ? {
@@ -301,7 +301,7 @@ export default function App() {
 
         {activeView === 'propRT' && (
           <PropRTMap
-            geojson={geojson}
+            geojson={countyGeojson}
             propRTData={propRTData}
             autoRefresh={autoRefresh}
             onToggleAutoRefresh={() => setAutoRefresh(p => !p)}

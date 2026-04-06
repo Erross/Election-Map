@@ -40,8 +40,9 @@ function remap2022(yearData) {
 }
 
 export async function loadAll() {
-  const [geojson, slates, ...yearResults] = await Promise.all([
+  const [geojson, countyGeojson, slates, ...yearResults] = await Promise.all([
     fetch(`${BASE}precincts.geojson`).then(r => r.json()),
+    fetch(`${BASE}county_precincts.geojson`).then(r => r.json()),
     fetch(`${BASE}slates.json`).then(r => r.json()),
     ...YEARS.map(y => fetch(`${BASE}fhsd_${y}.json`).then(r => r.json())),
   ]);
@@ -51,5 +52,5 @@ export async function loadAll() {
     electionData[y] = y === 2022 ? remap2022(yearResults[i]) : yearResults[i];
   });
 
-  return { geojson, slates, electionData };
+  return { geojson, countyGeojson, slates, electionData };
 }
