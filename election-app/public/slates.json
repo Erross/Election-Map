@@ -73,16 +73,15 @@
       "fh_families": {
         "label": "FH Families",
         "color": "red",
-        "candidates": ["ADAM BERTRAND", "RANDY COOK"]
+        "candidates": ["ADAM BERTRAND", "RANDY COOK JR."]
       },
       "fh_forward": {
-        "label": "Opposing candidates",
+        "label": "FH Forward",
         "color": "blue",
-        "candidates": [],
-        "note": "FH Forward did not run a formal slate in 2022. Identify non-FHFamilies candidates from the PDF and group as opposition. This is the BASELINE year."
+        "candidates": ["CHRISTINE HYMAN", "JUSTIN MCCOY"]
       },
       "independent": {
-        "candidates": []
+        "candidates": ["RICK RICE", "MIKE HOEHN"]
       },
       "winner": "fh_families",
       "is_baseline": true
