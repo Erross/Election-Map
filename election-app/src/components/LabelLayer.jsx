@@ -39,7 +39,7 @@ function formatTurnoutDelta(delta) {
 function formatMargin(margin) {
   if (margin === null || margin === undefined) return null;
   const abs = Math.abs(margin * 100).toFixed(0);
-  return margin > 0 ? `R+${abs}` : margin < 0 ? `B+${abs}` : 'Even';
+  return margin > 0 ? `Fam+${abs}` : margin < 0 ? `Fwd+${abs}` : 'Even';
 }
 
 export default function LabelLayer({
