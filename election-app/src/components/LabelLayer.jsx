@@ -30,16 +30,19 @@ function formatSwing(swing) {
   return swing > 0 ? `${abs}% →FHFam` : `${abs}% →FHFwd`;
 }
 
-function formatTurnoutDelta(delta) {
-  if (delta === null || delta === undefined) return null;
+function formatTurnout(votes, delta) {
+  if (votes === undefined || votes === null) return null;
+  const votesStr = votes.toLocaleString();
+  if (delta === null || delta === undefined) return votesStr;
   const abs = Math.abs(delta * 100).toFixed(1);
-  return delta > 0 ? `+${abs}%` : `–${abs}%`;
+  const deltaStr = delta > 0 ? `▲${abs}%` : `▼${abs}%`;
+  return `${votesStr}\n${deltaStr}`;
 }
 
 function formatMargin(margin) {
   if (margin === null || margin === undefined) return null;
   const abs = Math.abs(margin * 100).toFixed(0);
-  return margin > 0 ? `Fam+${abs}` : margin < 0 ? `Fwd+${abs}` : 'Even';
+  return margin > 0 ? `Fam+${abs}%` : margin < 0 ? `Fwd+${abs}%` : 'Even';
 }
 
 export default function LabelLayer({
@@ -47,8 +50,9 @@ export default function LabelLayer({
   overlayMode,       // 'swing' | 'turnout_delta' | 'margin'
   marginMap,         // { pid -> margin }
   compMarginMap,     // { pid -> margin }
-  turnoutMap,        // { pid -> turnout }
-  compTurnoutMap,    // { pid -> turnout }
+  turnoutMap,        // { pid -> turnout ratio }
+  compTurnoutMap,    // { pid -> turnout ratio }
+  votesMap,          // { pid -> total_votes }
   compYear,
   is2022Comp,        // true when compYear === 2022 (no per-precinct swing)
 }) {
@@ -84,7 +88,7 @@ export default function LabelLayer({
         const delta = (turnoutMap[pid] !== undefined && compTurnoutMap[pid] !== undefined)
           ? turnoutMap[pid] - compTurnoutMap[pid]
           : null;
-        text = formatTurnoutDelta(delta);
+        text = formatTurnout(votesMap[pid], delta);
       } else if (overlayMode === 'margin') {
         text = formatMargin(marginMap[pid]);
       }
@@ -100,10 +104,10 @@ export default function LabelLayer({
         color = '#ffffff';
       }
 
-      const icon = L.divIcon({
-        className: '',
-        html: `<span style="
-          font-size: 9px;
+      const lines = text.split('\n');
+      const isTwoLine = lines.length > 1;
+      const html = lines.map((line, i) => `<span style="
+          font-size: ${i === 0 && isTwoLine ? '10px' : '9px'};
           font-weight: 700;
           color: #fff;
           text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 2px #000;
@@ -112,9 +116,14 @@ export default function LabelLayer({
           pointer-events: none;
           display: block;
           text-align: center;
-        ">${text}</span>`,
-        iconSize: [40, 14],
-        iconAnchor: [20, 7],
+          line-height: 1.2;
+        ">${line}</span>`).join('');
+
+      const icon = L.divIcon({
+        className: '',
+        html,
+        iconSize: [48, isTwoLine ? 26 : 14],
+        iconAnchor: [24, isTwoLine ? 13 : 7],
       });
 
       const marker = L.marker(centroid, { icon, interactive: false, zIndexOffset: 500 });
@@ -126,7 +135,7 @@ export default function LabelLayer({
       markersRef.current.forEach(m => m.remove());
       markersRef.current = [];
     };
-  }, [geojson, map, overlayMode, marginMap, compMarginMap, turnoutMap, compTurnoutMap, is2022Comp]);
+  }, [geojson, map, overlayMode, marginMap, compMarginMap, turnoutMap, compTurnoutMap, votesMap, is2022Comp]);
 
   return null;
 }

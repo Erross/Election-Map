@@ -38,6 +38,12 @@ export default function ElectionMap({
   const turnoutMap = currentYearData ? buildTurnoutMap(currentYearData) : {};
   const compTurnoutMap = compYearData ? buildTurnoutMap(compYearData) : {};
 
+  // Raw vote counts per precinct for turnout label
+  const votesMap = {};
+  for (const [pid, row] of Object.entries(currentYearData?.precincts ?? {})) {
+    if (FHSD_PRECINCTS.has(pid)) votesMap[pid] = row.total_votes;
+  }
+
   // Fit map to FHSD precincts on first load
   useEffect(() => {
     if (!geojson || !map) return;
@@ -126,6 +132,7 @@ export default function ElectionMap({
         compMarginMap={compMarginMap}
         turnoutMap={turnoutMap}
         compTurnoutMap={compTurnoutMap}
+        votesMap={votesMap}
         compYear={compYearData?.year}
         is2022Comp={is2022Comp}
       />

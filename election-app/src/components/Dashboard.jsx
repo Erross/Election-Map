@@ -106,7 +106,7 @@ export default function Dashboard({
           {[
             { id: 'margin', label: 'Margin' },
             { id: 'swing', label: 'Swing' },
-            { id: 'turnout_delta', label: 'Turnout Δ' },
+            { id: 'turnout_delta', label: 'Turnout' },
           ].map(({ id, label }) => (
             <button
               key={id}
