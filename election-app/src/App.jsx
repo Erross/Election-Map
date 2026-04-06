@@ -14,6 +14,13 @@ const DEFAULT_YEAR = 2025;
 const DEFAULT_COMP_YEAR = 2024;
 const CENTER = [38.755, -90.68];
 
+function minsAgo(date, now) {
+  const diff = Math.floor((now - date) / 60000);
+  if (diff < 1) return 'just now';
+  if (diff === 1) return '1 min ago';
+  return `${diff} mins ago`;
+}
+
 export default function App() {
   const [appData, setAppData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,6 +35,7 @@ export default function App() {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const [newDataAt, setNewDataAt] = useState(null);
+  const [now, setNow] = useState(() => new Date());
 
   const lastViewed2026 = useRef(null);
 
@@ -63,8 +71,10 @@ export default function App() {
     }
 
     poll();
-    const interval = setInterval(poll, 30000);
-    return () => { cancelled = true; clearInterval(interval); };
+    const pollInterval = setInterval(poll, 30000);
+    // Tick the clock every 30s so "X minutes ago" stays accurate
+    const clockInterval = setInterval(() => setNow(new Date()), 30000);
+    return () => { cancelled = true; clearInterval(pollInterval); clearInterval(clockInterval); };
   }, [autoRefresh]);
 
   if (loading) return <div className="loading">Loading election data…</div>;
@@ -129,11 +139,12 @@ export default function App() {
             {autoRefresh ? 'Auto-Refresh ON (30s)' : 'Start Auto-Refresh'}
           </button>
 
-          {autoRefresh && fetchError && (
-            <div className="fetch-status error">Error: {fetchError}</div>
-          )}
-          {autoRefresh && !fetchError && !liveData && (
-            <div className="fetch-status waiting">Waiting for results…</div>
+          {autoRefresh && (
+            <div className="fetch-status waiting">
+              {newDataAt
+                ? `Last new data: ${minsAgo(newDataAt, now)} at ${newDataAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                : 'Waiting for first results…'}
+            </div>
           )}
 
           <button className="btn-secondary full-width" onClick={() => setShowPaster(true)}>

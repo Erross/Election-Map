@@ -73,7 +73,7 @@ export default function Dashboard({
     if (s !== null) swings[y] = s;
   }
 
-  const availableYears = [2022, 2023, 2024, 2025, ...(currentYearData.live ? [2026] : [])];
+  const availableYears = [2022, 2023, 2024, 2025, 2026];
   const compYears = availableYears.filter(y => y !== displayYear);
   const selectedCompSwing = swings[compYear] ?? null;
 
