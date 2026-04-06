@@ -156,37 +156,17 @@ export default function PropRTMap({
             Shall St. Charles County freeze residential property tax liability at 2024 levels for qualifying senior citizens?
           </div>
 
-          {/* Totals */}
-          <div className="stats-grid" style={{ marginTop: 12 }}>
-            <div className="stat-box">
-              <div className="stat-label">YES</div>
-              <div className="stat-value" style={{ color: '#16a34a' }}>
-                {totalVotes > 0 ? totalYes.toLocaleString() : '—'}
-              </div>
-              {totalVotes > 0 && (
-                <div style={{ fontSize: 11, color: '#6b7280' }}>{yesPct}%</div>
-              )}
+          <div className="summary-bar">
+            <div className="summary-row">
+              <span className="summary-label yes">YES</span>
+              <span className="summary-value">{totalVotes > 0 ? `${yesPct}%` : '—'}</span>
             </div>
-            <div className="stat-box">
-              <div className="stat-label">NO</div>
-              <div className="stat-value" style={{ color: '#dc2626' }}>
-                {totalVotes > 0 ? totalNo.toLocaleString() : '—'}
-              </div>
-              {totalVotes > 0 && (
-                <div style={{ fontSize: 11, color: '#6b7280' }}>{noPct}%</div>
-              )}
+            <div className="summary-row">
+              <span className="summary-label no">NO</span>
+              <span className="summary-value">{totalVotes > 0 ? `${noPct}%` : '—'}</span>
             </div>
-            <div className="stat-box">
-              <div className="stat-label">Total Votes</div>
-              <div className="stat-value">
-                {totalVotes > 0 ? totalVotes.toLocaleString() : '—'}
-              </div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Reporting</div>
-              <div className="stat-value">
-                {propRTData ? `${propRTData.reportingCount} / ${propRTData.totalPrecincts}` : '— / 116'}
-              </div>
+            <div className="summary-reporting">
+              {propRTData ? propRTData.reportingCount : 0} of 116 precincts reporting
             </div>
           </div>
 
@@ -273,9 +253,15 @@ export default function PropRTMap({
           )}
         </MapContainer>
 
-        {!propRTData && (
-          <div className="map-overlay-msg">
-            Prop RT results will appear when polls close at 7:00 PM CT
+        {(!propRTData || propRTData.reportingCount === 0) && (
+          <div className="map-overlay-msg propRT-empty">
+            <div className="empty-icon">⏳</div>
+            <div className="empty-title">Awaiting Results</div>
+            <div className="empty-sub">
+              Polls close at 7:00 PM CT on April 7, 2026.
+              <br />
+              Results will populate automatically as precincts report.
+            </div>
           </div>
         )}
       </main>

@@ -222,6 +222,11 @@ export default function App() {
 
   return (
     <div className="root-layout">
+      <header className="app-header">
+        <div className="app-header-title">St. Charles County Election Results</div>
+        <div className="app-header-sub">Live precinct-level results — April 7, 2026</div>
+      </header>
+
       <nav className="view-nav">
         <button
           className={activeView === 'fhsd' ? 'active' : ''}

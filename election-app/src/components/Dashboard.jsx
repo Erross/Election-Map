@@ -58,9 +58,14 @@ export default function Dashboard({
   const year = String(currentYearData.year);
 
   const agg = computeAggregate(currentYearData, slates);
-  const reporting = currentYearData.live
-    ? `${currentYearData.reportingCount ?? '?'} of 38`
-    : `${countReporting(currentYearData)} of 38`;
+  const reportingCount = currentYearData.live
+    ? (currentYearData.reportingCount ?? '?')
+    : countReporting(currentYearData);
+  const reporting = `${reportingCount} of 38`;
+
+  const aggDenom = (agg?.famTotal ?? 0) + (agg?.fwdTotal ?? 0);
+  const familiesPct = aggDenom > 0 ? ((agg.famTotal / aggDenom) * 100).toFixed(1) : null;
+  const forwardPct  = aggDenom > 0 ? ((agg.fwdTotal / aggDenom) * 100).toFixed(1) : null;
 
   const currentMargins = buildMarginMap(currentYearData, slates);
 
@@ -83,6 +88,18 @@ export default function Dashboard({
       <div className="dashboard-header">
         <h1>FHSD School Board Election</h1>
         <p className="race-label">Francis Howell R-III — {currentYearData.election_date}</p>
+      </div>
+
+      <div className="summary-bar">
+        <div className="summary-row">
+          <span className="summary-label families">FH Families</span>
+          <span className="summary-value">{familiesPct !== null ? `${familiesPct}%` : '—'}</span>
+        </div>
+        <div className="summary-row">
+          <span className="summary-label forward">FH Forward</span>
+          <span className="summary-value">{forwardPct !== null ? `${forwardPct}%` : '—'}</span>
+        </div>
+        <div className="summary-reporting">{reporting}</div>
       </div>
 
       {/* Year selector */}
