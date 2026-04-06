@@ -9,7 +9,10 @@
       "Bash(cp \"c:/Election Map/fhsd-election-map/data/fhsd_2024.json\" \"c:/Election Map/election-app/public/fhsd_2024.json\")",
       "Bash(npm run:*)",
       "Bash(npx kill-port:*)",
-      "Bash(curl -s http://localhost:5173)"
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(grep -l \"crosswalk\" \"c:/Election Map/fhsd-election-map/data/\"*)",
+      "Bash(grep -l \"crosswalk\" \"c:/Election Map/election-app/public/\"*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }
