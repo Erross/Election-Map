@@ -36,13 +36,13 @@ export function computeMargin(precinctRow, slateConfig) {
   const famVotes = fh_families.reduce((s, c) => s + (precinctRow[c] ?? 0), 0);
   const fwdVotes = fh_forward.reduce((s, c) => s + (precinctRow[c] ?? 0), 0);
 
-  // For 2023: exclude independents from denominator
-  const denominator = famVotes + fwdVotes;
+  // Normalize by candidate count so a 3-seat race doesn't inflate one slate's totals
+  const famAvg = famVotes / (fh_families.length || 1);
+  const fwdAvg = fwdVotes / (fh_forward.length || 1);
+  const denominator = famAvg + fwdAvg;
   if (!denominator) return null;
 
-  const famShare = famVotes / denominator;
-  const fwdShare = fwdVotes / denominator;
-  return famShare - fwdShare; // positive = FH Families ahead
+  return (famAvg - fwdAvg) / denominator; // positive = FH Families ahead
 }
 
 /**
@@ -100,8 +100,10 @@ export function computeAggregate(yearData, slatesConfig) {
     totalVotes += row.total_votes ?? 0;
   }
 
-  const denom = famTotal + fwdTotal;
-  const margin = denom ? (famTotal - fwdTotal) / denom : 0;
+  const famAvg = famTotal / (fh_families.length || 1);
+  const fwdAvg = fwdTotal / (fh_forward.length || 1);
+  const denom = famAvg + fwdAvg;
+  const margin = denom ? (famAvg - fwdAvg) / denom : 0;
   return { famTotal, fwdTotal, totalVotes, margin };
 }
 
@@ -129,8 +131,10 @@ export function computeAggregateMarginFromTotals(yearData, slatesConfig) {
   const totals = yearData.totals ?? {};
   const famVotes = fh_families.reduce((s, c) => s + (totals[c] ?? 0), 0);
   const fwdVotes = fh_forward.reduce((s, c) => s + (totals[c] ?? 0), 0);
-  const denom = famVotes + fwdVotes;
-  return denom ? (famVotes - fwdVotes) / denom : null;
+  const famAvg = famVotes / (fh_families.length || 1);
+  const fwdAvg = fwdVotes / (fh_forward.length || 1);
+  const denom = famAvg + fwdAvg;
+  return denom ? (famAvg - fwdAvg) / denom : null;
 }
 
 export { FHSD_PRECINCTS };
