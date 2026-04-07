@@ -5,6 +5,7 @@ import './App.css';
 
 import ElectionMap from './components/ElectionMap';
 import PrecinctTooltip from './components/PrecinctTooltip';
+import MobilePrecinctPanel from './components/MobilePrecinctPanel';
 import Dashboard from './components/Dashboard';
 import PropRTMap from './components/PropRTMap';
 import ResultsPaster from './components/ResultsPaster';
@@ -47,6 +48,8 @@ export default function App() {
   const [liveData, setLiveData] = useState(null);
   const [showPaster, setShowPaster] = useState(false);
   const [hoverInfo, setHoverInfo] = useState(null);
+  const [pinnedInfo, setPinnedInfo] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [newDataAt, setNewDataAt] = useState(null);
   const [now, setNow] = useState(() => new Date());
@@ -138,6 +141,7 @@ export default function App() {
   const phase = getPhase(now, liveData?.fhsd?.reportingCount ?? 0);
 
   function handleYearChange(y) {
+    setPinnedInfo(null);
     setDisplayYear(y);
     if (y === 2026) lastViewed2026.current = new Date();
     if (compYear === y) {
@@ -245,7 +249,7 @@ export default function App() {
       <div className="view-content">
         {activeView === 'fhsd' && (
           <div className="app-layout">
-            <aside className="sidebar">
+            <aside className={`sidebar${sidebarCollapsed ? ' collapsed' : ''}`}>
               {show2026Badge && (
                 <div className="new-data-bar" onClick={() => handleYearChange(2026)}>
                   New results available — click to view 2026
@@ -257,7 +261,7 @@ export default function App() {
                 electionData={electionData}
                 slates={slates}
                 onYearChange={handleYearChange}
-                onCompYearChange={setCompYear}
+                onCompYearChange={y => { setPinnedInfo(null); setCompYear(y); }}
                 onOverlayModeChange={setOverlayMode}
                 compYear={compYear}
                 displayYear={displayYear}
@@ -267,6 +271,15 @@ export default function App() {
 
               {liveSection}
             </aside>
+
+            <button
+              className="sidebar-toggle-btn"
+              onClick={() => setSidebarCollapsed(p => !p)}
+              aria-label={sidebarCollapsed ? 'Show panel' : 'Hide panel'}
+            >
+              <span className="stb-chevron">{sidebarCollapsed ? '▼' : '▲'}</span>
+              <span className="stb-label">{sidebarCollapsed ? 'Show Panel' : 'Hide Panel'}</span>
+            </button>
 
             <main className="map-wrap">
               <MapContainer center={CENTER} zoom={11} style={{ width: '100%', height: '100%' }} zoomControl>
@@ -283,6 +296,7 @@ export default function App() {
                       compYearData={compYearData}
                       slates={slates}
                       onHover={setHoverInfo}
+                      onPrecinctClick={setPinnedInfo}
                       overlayMode={overlayMode}
                     />
                     <PrecinctTooltip hoverInfo={hoverInfo} />
@@ -295,6 +309,11 @@ export default function App() {
                   Click "Start Auto-Refresh" or "Paste Results Manually" to load 2026 data.
                 </div>
               )}
+
+              <MobilePrecinctPanel
+                pinnedInfo={pinnedInfo}
+                onClose={() => setPinnedInfo(null)}
+              />
             </main>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -62,6 +62,63 @@ function buildTooltipHtml(feature, propRTData) {
   `;
 }
 
+function PropRTMobilePanel({ info, onClose }) {
+  const { pid, name, row } = info;
+  if (!row || row.total_votes === 0) {
+    return (
+      <div className="mobile-precinct-panel">
+        <div className="mpp-header">
+          <div className="mpp-title">{name}</div>
+          <button className="mpp-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="mpp-meta" style={{ color: '#9ca3af' }}>No results yet</div>
+      </div>
+    );
+  }
+
+  const yes    = row.YES ?? 0;
+  const no     = row.NO  ?? 0;
+  const total  = row.total_votes;
+  const yesPct = ((yes / total) * 100).toFixed(1);
+  const noPct  = ((no  / total) * 100).toFixed(1);
+  const margin = getMargin(row);
+  const leader = margin !== null ? (margin > 0 ? 'YES' : 'NO') : null;
+  const leaderColor = leader === 'YES' ? '#16a34a' : '#dc2626';
+
+  return (
+    <div className="mobile-precinct-panel">
+      <div className="mpp-header">
+        <div className="mpp-title">{name}</div>
+        <button className="mpp-close" onClick={onClose} aria-label="Close">✕</button>
+      </div>
+      <div className="mpp-slates">
+        <div className="mpp-slate">
+          <div className="mpp-row">
+            <span className="mpp-name" style={{ color: '#16a34a', fontWeight: 700 }}>YES</span>
+            <span className="mpp-votes" style={{ color: '#16a34a' }}>
+              {yes.toLocaleString()}&ensp;<span className="mpp-pct">{yesPct}%</span>
+            </span>
+          </div>
+          <div className="mpp-row">
+            <span className="mpp-name" style={{ color: '#dc2626', fontWeight: 700 }}>NO</span>
+            <span className="mpp-votes" style={{ color: '#dc2626' }}>
+              {no.toLocaleString()}&ensp;<span className="mpp-pct">{noPct}%</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="mpp-footer">
+        {leader && (
+          <span className="mpp-margin" style={{ color: leaderColor }}>
+            {leader}+{Math.abs(margin * 100).toFixed(1)}%
+          </span>
+        )}
+        <span className="mpp-swing">{total.toLocaleString()} votes cast</span>
+      </div>
+    </div>
+  );
+}
+
 /** Resizes map on container changes — same as ElectionMap */
 function MapResizer() {
   const map = useMap();
@@ -74,7 +131,9 @@ function MapResizer() {
   return null;
 }
 
-function PropRTLayer({ geojson, propRTData }) {
+function PropRTLayer({ geojson, propRTData, onPrecinctClick }) {
+  const clickedPidRef = useRef(null);
+
   function styleFeature(feature) {
     const pid    = feature.properties.DIST_NUM;
     const row    = propRTData?.precincts?.[pid];
@@ -100,6 +159,19 @@ function PropRTLayer({ geojson, propRTData }) {
       mouseout(e) {
         e.target.setStyle(styleFeature(feature));
       },
+      click(e) {
+        e.originalEvent?.stopPropagation();
+        const pid = feature.properties.DIST_NUM;
+        if (clickedPidRef.current === pid) {
+          clickedPidRef.current = null;
+          onPrecinctClick?.(null);
+        } else {
+          clickedPidRef.current = pid;
+          const row  = propRTData?.precincts?.[pid];
+          const name = feature.properties.LONGNAME || `Precinct ${pid}`;
+          onPrecinctClick?.({ pid, name, row });
+        }
+      },
     });
   }
 
@@ -123,6 +195,8 @@ export default function PropRTMap({
   liveTimestamp,
   sourceUpdated,
 }) {
+  const [clickedInfo, setClickedInfo] = useState(null);
+
   // County-wide aggregate totals
   let totalYes = 0, totalNo = 0, totalVotes = 0;
   if (propRTData?.precincts) {
@@ -249,7 +323,11 @@ export default function PropRTMap({
           />
           <MapResizer />
           {geojson && (
-            <PropRTLayer geojson={geojson} propRTData={propRTData} />
+            <PropRTLayer
+              geojson={geojson}
+              propRTData={propRTData}
+              onPrecinctClick={setClickedInfo}
+            />
           )}
         </MapContainer>
 
@@ -263,6 +341,10 @@ export default function PropRTMap({
               Results will populate automatically as precincts report.
             </div>
           </div>
+        )}
+
+        {clickedInfo && (
+          <PropRTMobilePanel info={clickedInfo} onClose={() => setClickedInfo(null)} />
         )}
       </main>
     </div>

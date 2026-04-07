@@ -619,6 +619,16 @@ select {
   display: none !important;
 }
 
+/* ── Sidebar toggle (mobile only, hidden on desktop) ── */
+.sidebar-toggle-btn {
+  display: none;
+}
+
+/* ── Mobile precinct panel (hidden on desktop) ── */
+.mobile-precinct-panel {
+  display: none;
+}
+
 /* ── Mobile layout (≤ 767px) ───────────────── */
 @media (max-width: 767px) {
   .root-layout {
@@ -760,6 +770,192 @@ select {
   .results-textarea {
     rows: 8;
     font-size: 11px;
+  }
+
+  /* ── Sidebar collapse ── */
+  .sidebar {
+    transition: max-height 0.3s ease, border-bottom-width 0.3s ease, padding 0.15s ease;
+  }
+
+  .sidebar.collapsed {
+    max-height: 0 !important;
+    overflow: hidden;
+    border-bottom-width: 0;
+  }
+
+  /* ── Sidebar toggle strip ── */
+  .sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #f1f5f9;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 5px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 100%;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition: background 0.15s;
+    z-index: 10;
+  }
+
+  .sidebar-toggle-btn:active {
+    background: #e2e8f0;
+  }
+
+  .stb-chevron {
+    font-size: 9px;
+    opacity: 0.7;
+  }
+
+  /* ── Mobile precinct panel ── */
+  .mobile-precinct-panel {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 2px solid #e5e7eb;
+    border-radius: 14px 14px 0 0;
+    padding: 14px 16px 20px;
+    z-index: 1500;
+    max-height: 55vh;
+    overflow-y: auto;
+    box-shadow: 0 -6px 32px rgba(0, 0, 0, 0.18);
+    animation: mpp-slide-up 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @keyframes mpp-slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  .mpp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .mpp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .mpp-close {
+    background: #f3f4f6;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mpp-close:active { background: #e5e7eb; }
+
+  .mpp-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 10px;
+  }
+
+  .mpp-meta strong {
+    color: #111827;
+  }
+
+  .mpp-slates {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .mpp-slate {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 7px 10px;
+  }
+
+  .mpp-slate-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+  }
+
+  .mpp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2px 0;
+    gap: 8px;
+  }
+
+  .mpp-name {
+    font-size: 12px;
+    color: #374151;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mpp-votes {
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .mpp-pct {
+    font-size: 11px;
+    font-weight: 400;
+    color: #6b7280;
+  }
+
+  .mpp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid #e5e7eb;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .mpp-margin {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .mpp-swing {
+    font-size: 11px;
+    color: #6b7280;
   }
 }
 

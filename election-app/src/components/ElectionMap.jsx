@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GeoJSON, useMap } from 'react-leaflet';
 import { marginToColor } from '../utils/colorScale';
 import { buildMarginMap, buildTurnoutMap, FHSD_PRECINCTS } from '../utils/slateCalculator';
@@ -26,9 +26,11 @@ export default function ElectionMap({
   compYearData,
   slates,
   onHover,
+  onPrecinctClick,
   overlayMode,
 }) {
   const map = useMap();
+  const clickedPidRef = useRef(null);
 
   const is2022Comp = compYearData?.year === 2022;
 
@@ -43,6 +45,11 @@ export default function ElectionMap({
   for (const [pid, row] of Object.entries(currentYearData?.precincts ?? {})) {
     if (FHSD_PRECINCTS.has(pid)) votesMap[pid] = row.total_votes;
   }
+
+  // Reset clicked state when year selection changes
+  useEffect(() => {
+    clickedPidRef.current = null;
+  }, [currentYear, compYearData?.year]);
 
   // Fit map to FHSD precincts on first load
   useEffect(() => {
@@ -80,38 +87,44 @@ export default function ElectionMap({
     const pid = feature.properties.DIST_NUM;
     const isFHSD = FHSD_PRECINCTS.has(pid);
 
+    function buildInfo(latlng) {
+      const precinctRow = currentYearData?.precincts?.[pid];
+      const compRow     = compYearData?.precincts?.[pid];
+      const margin      = marginMap[pid];
+      const compMargin  = compMarginMap[pid];
+      const swing       = (!is2022Comp && margin !== undefined && compMargin !== undefined)
+        ? margin - compMargin
+        : null;
+      return {
+        pid, precinctRow, compRow, margin, compMargin, swing,
+        currentSlate: slates?.slates?.[currentYear],
+        currentYear,
+        compYear: compYearData?.year,
+        is2022Comp,
+        latlng,
+      };
+    }
+
     layer.on({
       mouseover(e) {
         e.target.setStyle({ weight: 2.5, color: '#111827', fillOpacity: isFHSD ? 0.95 : 0.4 });
         if (!isFHSD) return;
-
-        const precinctRow = currentYearData?.precincts?.[pid];
-        const compRow = compYearData?.precincts?.[pid];
-        const margin = marginMap[pid];
-        const compMargin = compMarginMap[pid];
-        const swing = (!is2022Comp && margin !== undefined && compMargin !== undefined)
-          ? margin - compMargin
-          : null;
-
-        const currentSlate = slates?.slates?.[currentYear];
-
-        onHover({
-          pid,
-          precinctRow,
-          compRow,
-          margin,
-          compMargin,
-          swing,
-          currentSlate,
-          currentYear,
-          compYear: compYearData?.year,
-          is2022Comp,
-          latlng: e.latlng,
-        });
+        onHover(buildInfo(e.latlng));
       },
       mouseout(e) {
         e.target.setStyle(styleFeature(feature));
         onHover(null);
+      },
+      click(e) {
+        if (!isFHSD) return;
+        e.originalEvent?.stopPropagation();
+        if (clickedPidRef.current === pid) {
+          clickedPidRef.current = null;
+          onPrecinctClick?.(null);
+        } else {
+          clickedPidRef.current = pid;
+          onPrecinctClick?.(buildInfo(e.latlng));
+        }
       },
     });
   }
