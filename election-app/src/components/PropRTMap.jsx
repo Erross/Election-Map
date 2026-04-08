@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const CENTER = [38.78, -90.68];
@@ -117,6 +118,70 @@ function PropRTMobilePanel({ info, onClose }) {
       </div>
     </div>
   );
+}
+
+/** Centroid helper — same logic as LabelLayer */
+function getCentroid(feature) {
+  const { type, coordinates } = feature.geometry;
+  let points = [];
+  if (type === 'Polygon') {
+    points = coordinates[0];
+  } else if (type === 'MultiPolygon') {
+    let max = 0, best = [];
+    for (const poly of coordinates) {
+      if (poly[0].length > max) { max = poly[0].length; best = poly[0]; }
+    }
+    points = best;
+  }
+  if (!points.length) return null;
+  let lat = 0, lng = 0;
+  for (const [x, y] of points) { lng += x; lat += y; }
+  return [lat / points.length, lng / points.length];
+}
+
+function PropRTLabelLayer({ geojson, propRTData }) {
+  const map = useMap();
+  const markersRef = useRef([]);
+
+  useEffect(() => {
+    markersRef.current.forEach(m => m.remove());
+    markersRef.current = [];
+    if (!geojson || !map || !propRTData) return;
+
+    for (const feature of geojson.features) {
+      const pid = feature.properties.DIST_NUM;
+      const row = propRTData.precincts?.[pid];
+      if (!row || row.total_votes === 0) continue;
+
+      const centroid = getCentroid(feature);
+      if (!centroid) return;
+
+      const yes = row.YES ?? 0;
+      const total = row.total_votes;
+      const yesPct = (yes / total * 100).toFixed(0);
+      const noPct = (100 - Number(yesPct)).toFixed(0);
+      const yesLeads = yes >= total / 2;
+      const label = yesLeads ? `Y ${yesPct}%` : `N ${noPct}%`;
+
+      const html = `<span style="
+        font-size:9px;font-weight:700;color:#fff;
+        text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;
+        white-space:nowrap;pointer-events:none;display:block;text-align:center;
+      ">${label}</span>`;
+
+      const icon = L.divIcon({ className: '', html, iconSize: [40, 14], iconAnchor: [20, 7] });
+      const marker = L.marker(centroid, { icon, interactive: false, zIndexOffset: 500 });
+      marker.addTo(map);
+      markersRef.current.push(marker);
+    }
+
+    return () => {
+      markersRef.current.forEach(m => m.remove());
+      markersRef.current = [];
+    };
+  }, [geojson, map, propRTData]);
+
+  return null;
 }
 
 /** Resizes map on container changes — same as ElectionMap */
@@ -296,11 +361,14 @@ export default function PropRTMap({ geojson, propRTData }) {
           />
           <MapResizer />
           {geojson && (
-            <PropRTLayer
-              geojson={geojson}
-              propRTData={propRTData}
-              onPrecinctClick={setClickedInfo}
-            />
+            <>
+              <PropRTLayer
+                geojson={geojson}
+                propRTData={propRTData}
+                onPrecinctClick={setClickedInfo}
+              />
+              <PropRTLabelLayer geojson={geojson} propRTData={propRTData} />
+            </>
           )}
         </MapContainer>
 
