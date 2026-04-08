@@ -60,11 +60,11 @@
       "fh_forward": {
         "label": "FH Forward",
         "color": "blue",
-        "candidates": ["AMY EASTERLING", "ANDREW FLETT", "HARRY HARRIS"]
+        "candidates": ["AMY EASTERLING", "DOUG ZIEGEMEIER", "HARRY HARRIS"]
       },
       "independent": {
-        "candidates": ["DOUGLAS ZIEGEMEIER", "PATRICK LANE", "AUDREY TREECE"],
-        "note": "Independents - exclude from slate margin calculations"
+        "candidates": ["ANDREW FLETT"],
+        "note": "Also-ran — excluded from slate margin calculations"
       },
       "winner": "fh_families"
     },
