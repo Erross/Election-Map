@@ -185,16 +185,7 @@ function PropRTLayer({ geojson, propRTData, onPrecinctClick }) {
   );
 }
 
-export default function PropRTMap({
-  geojson,
-  propRTData,
-  autoRefresh,
-  onToggleAutoRefresh,
-  autoRefreshLabel,
-  statusText,
-  liveTimestamp,
-  sourceUpdated,
-}) {
+export default function PropRTMap({ geojson, propRTData }) {
   const [clickedInfo, setClickedInfo] = useState(null);
 
   // County-wide aggregate totals
@@ -280,32 +271,14 @@ export default function PropRTMap({
           </div>
         </div>
 
-        {/* Auto-refresh — shared with FHSD view */}
         <div className="live-section">
           <div className="live-header">
-            <span className={`live-dot${propRTData ? ' active' : ''}`} />
-            Election Night 2026 (Apr 7)
+            <span className="live-dot" />
+            April 7, 2026 — Final Results
           </div>
-
-          <button
-            className={`btn-primary full-width${autoRefresh ? ' btn-active' : ''}`}
-            onClick={onToggleAutoRefresh}
-          >
-            {autoRefreshLabel}
-          </button>
-
-          {autoRefresh && (
-            <div className="fetch-status waiting">{statusText}</div>
-          )}
-
-          {liveTimestamp && (
-            <div className="live-timestamp">
-              Last updated: {new Date(liveTimestamp).toLocaleTimeString()}
-              {sourceUpdated && (
-                <div className="source-timestamp">Source: {sourceUpdated}</div>
-              )}
-            </div>
-          )}
+          <div className="fetch-status waiting">
+            All {propRTData?.reportingCount ?? 0} of {propRTData?.totalPrecincts ?? 116} precincts reported
+          </div>
         </div>
       </aside>
 

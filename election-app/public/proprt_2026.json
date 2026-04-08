@@ -1,0 +1,593 @@
+{
+  "race": "ST. CHARLES COUNTY PROPOSITION RT",
+  "precincts": {
+    "101": {
+      "total_votes": 23,
+      "NO": 13,
+      "YES": 10
+    },
+    "102": {
+      "total_votes": 652,
+      "NO": 388,
+      "YES": 264
+    },
+    "103": {
+      "total_votes": 263,
+      "YES": 134,
+      "NO": 129
+    },
+    "104": {
+      "total_votes": 650,
+      "NO": 337,
+      "YES": 313
+    },
+    "105": {
+      "total_votes": 398,
+      "NO": 211,
+      "YES": 187
+    },
+    "106": {
+      "total_votes": 609,
+      "NO": 319,
+      "YES": 290
+    },
+    "107": {
+      "total_votes": 312,
+      "YES": 189,
+      "NO": 123
+    },
+    "108": {
+      "total_votes": 339,
+      "NO": 180,
+      "YES": 159
+    },
+    "109": {
+      "total_votes": 403,
+      "NO": 214,
+      "YES": 189
+    },
+    "110": {
+      "total_votes": 300,
+      "YES": 158,
+      "NO": 142
+    },
+    "111": {
+      "total_votes": 415,
+      "YES": 213,
+      "NO": 202
+    },
+    "112": {
+      "total_votes": 288,
+      "NO": 163,
+      "YES": 125
+    },
+    "113": {
+      "total_votes": 758,
+      "NO": 413,
+      "YES": 345
+    },
+    "114": {
+      "total_votes": 617,
+      "YES": 318,
+      "NO": 299
+    },
+    "115": {
+      "total_votes": 889,
+      "NO": 496,
+      "YES": 393
+    },
+    "201": {
+      "total_votes": 390,
+      "NO": 205,
+      "YES": 185
+    },
+    "202": {
+      "total_votes": 778,
+      "NO": 412,
+      "YES": 366
+    },
+    "203": {
+      "total_votes": 520,
+      "NO": 261,
+      "YES": 259
+    },
+    "204": {
+      "total_votes": 187,
+      "YES": 102,
+      "NO": 85
+    },
+    "205": {
+      "total_votes": 607,
+      "NO": 358,
+      "YES": 249
+    },
+    "206": {
+      "total_votes": 665,
+      "NO": 360,
+      "YES": 305
+    },
+    "207": {
+      "total_votes": 448,
+      "NO": 241,
+      "YES": 207
+    },
+    "208": {
+      "total_votes": 150,
+      "YES": 76,
+      "NO": 74
+    },
+    "209": {
+      "total_votes": 705,
+      "NO": 364,
+      "YES": 341
+    },
+    "210": {
+      "total_votes": 632,
+      "NO": 367,
+      "YES": 265
+    },
+    "211": {
+      "total_votes": 578,
+      "NO": 353,
+      "YES": 225
+    },
+    "212": {
+      "total_votes": 739,
+      "NO": 429,
+      "YES": 310
+    },
+    "213": {
+      "total_votes": 589,
+      "YES": 322,
+      "NO": 267
+    },
+    "214": {
+      "total_votes": 700,
+      "YES": 352,
+      "NO": 348
+    },
+    "215": {
+      "total_votes": 373,
+      "YES": 200,
+      "NO": 173
+    },
+    "216": {
+      "total_votes": 55,
+      "NO": 28,
+      "YES": 27
+    },
+    "301": {
+      "total_votes": 865,
+      "NO": 526,
+      "YES": 339
+    },
+    "302": {
+      "total_votes": 415,
+      "NO": 257,
+      "YES": 158
+    },
+    "303": {
+      "total_votes": 536,
+      "NO": 319,
+      "YES": 217
+    },
+    "304": {
+      "total_votes": 774,
+      "NO": 466,
+      "YES": 308
+    },
+    "305": {
+      "total_votes": 798,
+      "NO": 530,
+      "YES": 268
+    },
+    "306": {
+      "total_votes": 519,
+      "NO": 304,
+      "YES": 215
+    },
+    "307": {
+      "total_votes": 778,
+      "NO": 497,
+      "YES": 281
+    },
+    "308": {
+      "total_votes": 190,
+      "NO": 107,
+      "YES": 83
+    },
+    "309": {
+      "total_votes": 563,
+      "NO": 314,
+      "YES": 249
+    },
+    "310": {
+      "total_votes": 221,
+      "NO": 130,
+      "YES": 91
+    },
+    "311": {
+      "total_votes": 496,
+      "NO": 297,
+      "YES": 199
+    },
+    "312": {
+      "total_votes": 251,
+      "NO": 138,
+      "YES": 113
+    },
+    "313": {
+      "total_votes": 485,
+      "NO": 323,
+      "YES": 162
+    },
+    "314": {
+      "total_votes": 597,
+      "NO": 363,
+      "YES": 234
+    },
+    "315": {
+      "total_votes": 594,
+      "NO": 340,
+      "YES": 254
+    },
+    "316": {
+      "total_votes": 244,
+      "NO": 134,
+      "YES": 110
+    },
+    "317": {
+      "total_votes": 114,
+      "YES": 66,
+      "NO": 48
+    },
+    "318": {
+      "total_votes": 60,
+      "NO": 37,
+      "YES": 23
+    },
+    "319": {
+      "total_votes": 95,
+      "NO": 54,
+      "YES": 41
+    },
+    "401": {
+      "total_votes": 398,
+      "NO": 260,
+      "YES": 138
+    },
+    "402": {
+      "total_votes": 693,
+      "NO": 441,
+      "YES": 252
+    },
+    "403": {
+      "total_votes": 300,
+      "NO": 166,
+      "YES": 134
+    },
+    "404": {
+      "total_votes": 287,
+      "NO": 183,
+      "YES": 104
+    },
+    "405": {
+      "total_votes": 484,
+      "NO": 290,
+      "YES": 194
+    },
+    "406": {
+      "total_votes": 538,
+      "NO": 306,
+      "YES": 232
+    },
+    "407": {
+      "total_votes": 368,
+      "NO": 203,
+      "YES": 165
+    },
+    "408": {
+      "total_votes": 424,
+      "NO": 261,
+      "YES": 163
+    },
+    "409": {
+      "total_votes": 420,
+      "NO": 262,
+      "YES": 158
+    },
+    "410": {
+      "total_votes": 169,
+      "NO": 116,
+      "YES": 53
+    },
+    "411": {
+      "total_votes": 220,
+      "NO": 144,
+      "YES": 76
+    },
+    "412": {
+      "total_votes": 499,
+      "NO": 273,
+      "YES": 226
+    },
+    "413": {
+      "total_votes": 498,
+      "NO": 286,
+      "YES": 212
+    },
+    "414": {
+      "total_votes": 187,
+      "NO": 101,
+      "YES": 86
+    },
+    "415": {
+      "total_votes": 371,
+      "NO": 228,
+      "YES": 143
+    },
+    "416": {
+      "total_votes": 368,
+      "NO": 227,
+      "YES": 141
+    },
+    "417": {
+      "total_votes": 259,
+      "NO": 154,
+      "YES": 105
+    },
+    "501": {
+      "total_votes": 282,
+      "NO": 185,
+      "YES": 97
+    },
+    "502": {
+      "total_votes": 103,
+      "NO": 59,
+      "YES": 44
+    },
+    "503": {
+      "total_votes": 219,
+      "NO": 121,
+      "YES": 98
+    },
+    "504": {
+      "total_votes": 328,
+      "NO": 211,
+      "YES": 117
+    },
+    "505": {
+      "total_votes": 282,
+      "NO": 180,
+      "YES": 102
+    },
+    "506": {
+      "total_votes": 1040,
+      "NO": 674,
+      "YES": 366
+    },
+    "507": {
+      "total_votes": 299,
+      "NO": 208,
+      "YES": 91
+    },
+    "508": {
+      "total_votes": 404,
+      "NO": 252,
+      "YES": 152
+    },
+    "509": {
+      "total_votes": 421,
+      "NO": 280,
+      "YES": 141
+    },
+    "510": {
+      "total_votes": 469,
+      "NO": 308,
+      "YES": 161
+    },
+    "511": {
+      "total_votes": 757,
+      "NO": 468,
+      "YES": 289
+    },
+    "512": {
+      "total_votes": 600,
+      "NO": 373,
+      "YES": 227
+    },
+    "513": {
+      "total_votes": 550,
+      "NO": 330,
+      "YES": 220
+    },
+    "514": {
+      "total_votes": 515,
+      "NO": 330,
+      "YES": 185
+    },
+    "515": {
+      "total_votes": 547,
+      "NO": 348,
+      "YES": 199
+    },
+    "516": {
+      "total_votes": 498,
+      "NO": 307,
+      "YES": 191
+    },
+    "517": {
+      "total_votes": 786,
+      "NO": 510,
+      "YES": 276
+    },
+    "601": {
+      "total_votes": 101,
+      "NO": 57,
+      "YES": 44
+    },
+    "602": {
+      "total_votes": 199,
+      "NO": 109,
+      "YES": 90
+    },
+    "603": {
+      "total_votes": 536,
+      "NO": 322,
+      "YES": 214
+    },
+    "604": {
+      "total_votes": 878,
+      "NO": 590,
+      "YES": 288
+    },
+    "605": {
+      "total_votes": 347,
+      "NO": 228,
+      "YES": 119
+    },
+    "606": {
+      "total_votes": 692,
+      "NO": 466,
+      "YES": 226
+    },
+    "607": {
+      "total_votes": 421,
+      "NO": 260,
+      "YES": 161
+    },
+    "608": {
+      "total_votes": 193,
+      "NO": 106,
+      "YES": 87
+    },
+    "609": {
+      "total_votes": 168,
+      "NO": 110,
+      "YES": 58
+    },
+    "610": {
+      "total_votes": 421,
+      "NO": 278,
+      "YES": 143
+    },
+    "611": {
+      "total_votes": 468,
+      "NO": 297,
+      "YES": 171
+    },
+    "612": {
+      "total_votes": 457,
+      "NO": 311,
+      "YES": 146
+    },
+    "613": {
+      "total_votes": 462,
+      "NO": 303,
+      "YES": 159
+    },
+    "614": {
+      "total_votes": 503,
+      "NO": 338,
+      "YES": 165
+    },
+    "615": {
+      "total_votes": 703,
+      "NO": 443,
+      "YES": 260
+    },
+    "616": {
+      "total_votes": 294,
+      "NO": 185,
+      "YES": 109
+    },
+    "617": {
+      "total_votes": 456,
+      "NO": 292,
+      "YES": 164
+    },
+    "701": {
+      "total_votes": 932,
+      "NO": 621,
+      "YES": 311
+    },
+    "702": {
+      "total_votes": 585,
+      "NO": 407,
+      "YES": 178
+    },
+    "703": {
+      "total_votes": 575,
+      "NO": 364,
+      "YES": 211
+    },
+    "704": {
+      "total_votes": 983,
+      "NO": 610,
+      "YES": 373
+    },
+    "705": {
+      "total_votes": 625,
+      "NO": 376,
+      "YES": 249
+    },
+    "706": {
+      "total_votes": 702,
+      "NO": 429,
+      "YES": 273
+    },
+    "707": {
+      "total_votes": 663,
+      "NO": 417,
+      "YES": 246
+    },
+    "708": {
+      "total_votes": 384,
+      "NO": 249,
+      "YES": 135
+    },
+    "709": {
+      "total_votes": 1012,
+      "NO": 638,
+      "YES": 374
+    },
+    "710": {
+      "total_votes": 1054,
+      "NO": 666,
+      "YES": 388
+    },
+    "711": {
+      "total_votes": 495,
+      "NO": 281,
+      "YES": 214
+    },
+    "712": {
+      "total_votes": 843,
+      "NO": 464,
+      "YES": 379
+    },
+    "713": {
+      "total_votes": 822,
+      "NO": 547,
+      "YES": 275
+    },
+    "714": {
+      "total_votes": 175,
+      "NO": 89,
+      "YES": 86
+    },
+    "CENTRAL 1": {
+      "total_votes": 106,
+      "YES": 59,
+      "NO": 47
+    },
+    "CENTRAL 2": {
+      "total_votes": 26,
+      "NO": 17,
+      "YES": 9
+    }
+  },
+  "reportingCount": 117,
+  "totalPrecincts": 116,
+  "parsedAt": "2026-04-08T14:46:06.115Z"
+}

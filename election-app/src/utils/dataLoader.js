@@ -3,7 +3,7 @@
  * Data files are served from /public/.
  */
 
-const YEARS = [2022, 2023, 2024, 2025];
+const YEARS = [2022, 2023, 2024, 2025, 2026];
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -40,10 +40,11 @@ function remap2022(yearData) {
 }
 
 export async function loadAll() {
-  const [geojson, countyGeojson, slates, ...yearResults] = await Promise.all([
+  const [geojson, countyGeojson, slates, propRT2026, ...yearResults] = await Promise.all([
     fetch(`${BASE}precincts.geojson`).then(r => r.json()),
     fetch(`${BASE}county_precincts.geojson`).then(r => r.json()),
     fetch(`${BASE}slates.json`).then(r => r.json()),
+    fetch(`${BASE}proprt_2026.json`).then(r => r.json()),
     ...YEARS.map(y => fetch(`${BASE}fhsd_${y}.json`).then(r => r.json())),
   ]);
 
@@ -52,5 +53,13 @@ export async function loadAll() {
     electionData[y] = y === 2022 ? remap2022(yearResults[i]) : yearResults[i];
   });
 
-  return { geojson, countyGeojson, slates, electionData };
+  // Mark 2026 as live/final so the app renders it correctly
+  if (electionData[2026]) {
+    electionData[2026] = {
+      ...electionData[2026],
+      live: true,
+    };
+  }
+
+  return { geojson, countyGeojson, slates, electionData, propRT2026 };
 }
