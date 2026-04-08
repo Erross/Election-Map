@@ -187,7 +187,7 @@ export default {
     const fhsdReporting = Object.values(fhsdMap).filter(v => v.total_votes > 0).length;
 
     // ── Proposition RT ───────────────────────────────────────────────
-    const propRTRaw = parseContest(html, 'PROPOSITION RT');
+    const propRTRaw = parseContest(html, 'ST\\.\\s*CHARLES\\s+COUNTY\\s+PROPOSITION RT');
     let propRT = null;
     if (propRTRaw) {
       const propRTReporting = Object.values(propRTRaw).filter(v => v.total_votes > 0).length;

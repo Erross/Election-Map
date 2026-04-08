@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm create:*)"
+      "Bash(npm create:*)",
+      "Bash(node -e ':*)",
+      "Bash(node -e \"const d=require\\('c:/Election Map/election-app/public/fhsd_2026.json'\\); console.log\\('fhsd reporting:', d.fhsd?.reportingCount\\); console.log\\('propRT reporting:', d.propRT?.reportingCount\\); console.log\\('parsedAt:', d.parsedAt\\);\")"
     ]
   }
 }
