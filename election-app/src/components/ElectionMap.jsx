@@ -93,7 +93,7 @@ export default function ElectionMap({
       const margin      = marginMap[pid];
       const compMargin  = compMarginMap[pid];
       const swing       = (!is2022Comp && margin !== undefined && compMargin !== undefined)
-        ? margin - compMargin
+        ? (margin - compMargin) / 2
         : null;
       return {
         pid, precinctRow, compRow, margin, compMargin, swing,

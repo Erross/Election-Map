@@ -80,7 +80,7 @@ export default function LabelLayer({
           text = null; // no per-precinct swing vs 2022
         } else {
           const swing = (marginMap[pid] !== undefined && compMarginMap[pid] !== undefined)
-            ? marginMap[pid] - compMarginMap[pid]
+            ? (marginMap[pid] - compMarginMap[pid]) / 2
             : null;
           text = formatSwing(swing);
         }

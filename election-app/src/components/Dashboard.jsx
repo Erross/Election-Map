@@ -38,7 +38,9 @@ function marginColor(v) {
 function avgSwingPerPrecinct(currentMargins, compMargins) {
   const pids = Object.keys(currentMargins).filter(p => compMargins[p] !== undefined);
   if (!pids.length) return null;
-  return pids.reduce((s, p) => s + (currentMargins[p] - compMargins[p]), 0) / pids.length;
+  // Divide by 2: margin delta is (famShare−fwdShare) diff, but political reporting
+  // swing = change in one party's share, which is half the margin delta.
+  return pids.reduce((s, p) => s + (currentMargins[p] - compMargins[p]), 0) / pids.length / 2;
 }
 
 export default function Dashboard({
